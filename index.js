@@ -455,8 +455,7 @@ const loginPage = `
 </html>
 `;
 
-const adminPage = `
-<!DOCTYPE html>
+const adminPage = `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -691,6 +690,38 @@ const adminPage = `
     
     .toast.show { transform: translateX(0); }
     
+    /* 备注气泡样式 */
+    .notes-tooltip {
+      position: absolute;
+      z-index: 1000;
+      padding: 8px;
+      background: #1f2937;
+      color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      font-size: 12px;
+      white-space: normal;
+      max-width: 200px;
+      word-wrap: break-word;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .notes-tooltip.show {
+      opacity: 1;
+    }
+
+    .notes-tooltip::after {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: 10px;
+      border-width: 0 6px 6px 6px;
+      border-style: solid;
+      border-color: transparent transparent #1f2937 transparent;
+    }
+    
     /* 保持原有功能性样式 */
     .readonly-input { background-color: #f8fafc; border-color: #e2e8f0; cursor: not-allowed; }
     .error-message { font-size: 0.875rem; margin-top: 0.25rem; display: none; }
@@ -769,9 +800,9 @@ const adminPage = `
   </div>
 
   <!-- 添加/编辑订阅的模态框 -->
-  <div id="subscriptionModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 modal-container hidden flex items-center justify-center z-50">
-    <div class="modal-content max-w-2xl w-full mx-4 max-h-screen overflow-y-auto">
-      <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 rounded-t-lg">
+  <div id="subscriptionModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 modal-container hidden flex items-center justify-center z-50 overflow-y-auto">
+    <div class="modal-content max-w-3xl w-full mx-4 max-h-screen overflow-y-auto">
+      <div class="modal-header bg-gray-50 px-6 py-4 border-b border-gray-200 rounded-t-lg sticky top-0 z-10">
         <div class="flex items-center justify-between">
           <h3 id="modalTitle" class="text-lg font-medium text-gray-900">添加新订阅</h3>
           <button id="closeModal" class="text-gray-400 hover:text-gray-600">
@@ -881,7 +912,7 @@ const adminPage = `
         </div>
         
         <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200">
-          <button type="button" id="cancelBtn" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+          <button type="button" id="cancelBtn" class="btn-primary">
             取消
           </button>
           <button type="submit" class="btn-primary">
@@ -1349,11 +1380,11 @@ function addLunarPeriod(lunar, periodValue, periodUnit) {
             const notes = subscription.notes;
             if (notes.length > 50) {
               const truncatedNotes = notes.substring(0, 50) + '...';
-              notesHtml = '<div class="notes-container">' +
-                '<div class="notes-text text-xs text-gray-500" data-full-notes="' + notes.replace(/"/g, '&quot;') + '">' +
+              notesHtml = '<div class="notes-container relative inline-block">' +
+                '<div class="notes-text text-xs text-gray-500 cursor-pointer" data-full-notes="' + notes.replace(/"/g, '&quot;') + '">' +
                   truncatedNotes +
                 '</div>' +
-                '<div class="notes-tooltip"></div>' +
+                '<div class="notes-tooltip absolute z-10 p-2 bg-gray-800 text-white text-xs rounded shadow-lg whitespace-normal max-w-xs" style="display: none; width: 200px;"></div>' +
               '</div>';
             } else {
               notesHtml = '<div class="text-xs text-gray-500">' + notes + '</div>';
@@ -1836,7 +1867,6 @@ console.log('expiry.toString():', expiry.toString());
   </script>
 </body>
 </html>
-
 `;
 
 const configPage = `<!DOCTYPE html>
