@@ -2142,20 +2142,55 @@ const configPage = `
     .toast.info { background-color: #3b82f6; }
     .toast.warning { background-color: #f59e0b; }
     
-    .config-section { 
-      border: 1px solid #e5e7eb; 
-      border-radius: 8px; 
-      padding: 16px; 
-      margin-bottom: 24px; 
+    .config-section {
+      background: #f0f0f0;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 
+        10px 10px 20px #d0d0d0,
+        -10px -10px 20px #ffffff;
+      position: relative;
+      margin-bottom: 24px;
     }
-    .config-section.active { 
-      background-color: #f8fafc; 
-      border-color: #6366f1; 
+    
+    .config-section::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(135deg, #ffffff, #d0d0d0);
+      border-radius: 22px;
+      z-index: -1;
     }
-    .config-section.inactive { 
-      background-color: #f9fafb; 
-      opacity: 0.7; 
+    
+    .config-section.active {
+      box-shadow: 
+        inset 5px 5px 10px #d0d0d0,
+        inset -5px -5px 10px #ffffff;
     }
+    
+    .config-section.inactive {
+      opacity: 0.7;
+    }
+    
+    /* Toast 样式 */
+    .toast {
+      position: fixed; top: 20px; right: 20px; padding: 12px 20px; border-radius: 8px;
+      color: white; font-weight: 500; z-index: 1000; transform: translateX(400px);
+      transition: all 0.3s ease-in-out; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    .toast.show { transform: translateX(0); }
+    .toast.success { background-color: #10b981; }
+    .toast.error { background-color: #ef4444; }
+    .toast.info { background-color: #3b82f6; }
+    .toast.warning { background-color: #f59e0b; }
+    
+    /* 保持原有功能性样式 */
+    .readonly-input { background-color: #f8fafc; border-color: #e2e8f0; cursor: not-allowed; }
+    .error-message { font-size: 0.875rem; margin-top: 0.25rem; display: none; }
+    .error-message.show { display: block; }
   </style>
 </head>
 <body class="bg-gray-100 min-h-screen">
@@ -2184,27 +2219,27 @@ const configPage = `
   </nav>
   
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="bg-white rounded-lg shadow-md p-6">
-      <h2 class="text-2xl font-bold text-gray-800 mb-6">系统配置</h2>
+    <div class="config-section">
+      <h2 class="mb-6">系统配置</h2>
       
       <form id="configForm" class="space-y-8">
-        <div class="border-b border-gray-200 pb-6">
-          <h3 class="text-lg font-medium text-gray-900 mb-4">管理员账户</h3>
+        <div class="pb-6 border-b border-gray-200">
+          <h3 class="mb-4">管理员账户</h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label for="adminUsername" class="block text-sm font-medium text-gray-700">用户名</label>
-              <input type="text" id="adminUsername" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+              <label for="adminUsername" class="block text-sm font-medium text-gray-700 mb-1">用户名</label>
+              <input type="text" id="adminUsername">
             </div>
             <div>
-              <label for="adminPassword" class="block text-sm font-medium text-gray-700">密码</label>
-              <input type="password" id="adminPassword" placeholder="如不修改密码，请留空" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+              <label for="adminPassword" class="block text-sm font-medium text-gray-700 mb-1">密码</label>
+              <input type="password" id="adminPassword" placeholder="如不修改密码，请留空">
               <p class="mt-1 text-sm text-gray-500">留空表示不修改当前密码</p>
             </div>
           </div>
         </div>
         
-        <div class="border-b border-gray-200 pb-6">
-          <h3 class="text-lg font-medium text-gray-900 mb-4">显示设置</h3>
+        <div class="pb-6 border-b border-gray-200">
+          <h3 class="mb-4">显示设置</h3>
           <div class="mb-6">
             <label class="inline-flex items-center">
               <input type="checkbox" id="showLunarGlobal" class="form-checkbox h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" checked>
@@ -2214,8 +2249,8 @@ const configPage = `
           </div>
         </div>
 
-        <div class="border-b border-gray-200 pb-6">
-          <h3 class="text-lg font-medium text-gray-900 mb-4">通知设置</h3>
+        <div class="pb-6 border-b border-gray-200">
+          <h3 class="mb-4">通知设置</h3>
           <div class="mb-6">
             <label class="block text-sm font-medium text-gray-700 mb-3">通知方式（可多选）</label>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -2257,91 +2292,91 @@ const configPage = `
           </div>
           
           <div id="telegramConfig" class="config-section">
-            <h4 class="text-md font-medium text-gray-900 mb-3">Telegram 配置</h4>
+            <h4 class="mb-3">Telegram 配置</h4>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
-                <label for="tgBotToken" class="block text-sm font-medium text-gray-700">Bot Token</label>
-                <input type="text" id="tgBotToken" placeholder="从 @BotFather 获取" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <label for="tgBotToken" class="block text-sm font-medium text-gray-700 mb-1">Bot Token</label>
+                <input type="text" id="tgBotToken" placeholder="从 @BotFather 获取">
               </div>
               <div>
-                <label for="tgChatId" class="block text-sm font-medium text-gray-700">Chat ID</label>
-                <input type="text" id="tgChatId" placeholder="可从 @userinfobot 获取" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <label for="tgChatId" class="block text-sm font-medium text-gray-700 mb-1">Chat ID</label>
+                <input type="text" id="tgChatId" placeholder="可从 @userinfobot 获取">
               </div>
             </div>
             <div class="flex justify-end">
-              <button type="button" id="testTelegramBtn" class="btn-secondary text-white px-4 py-2 rounded-md text-sm font-medium">
+              <button type="button" id="testTelegramBtn" class="btn-secondary">
                 <i class="fas fa-paper-plane mr-2"></i>测试 Telegram 通知
               </button>
             </div>
           </div>
           
           <div id="notifyxConfig" class="config-section">
-            <h4 class="text-md font-medium text-gray-900 mb-3">NotifyX 配置</h4>
+            <h4 class="mb-3">NotifyX 配置</h4>
             <div class="mb-4">
-              <label for="notifyxApiKey" class="block text-sm font-medium text-gray-700">API Key</label>
-              <input type="text" id="notifyxApiKey" placeholder="从 NotifyX 平台获取的 API Key" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+              <label for="notifyxApiKey" class="block text-sm font-medium text-gray-700 mb-1">API Key</label>
+              <input type="text" id="notifyxApiKey" placeholder="从 NotifyX 平台获取的 API Key">
               <p class="mt-1 text-sm text-gray-500">从 <a href="https://www.notifyx.cn/" target="_blank" class="text-indigo-600 hover:text-indigo-800">NotifyX平台</a> 获取的 API Key</p>
             </div>
             <div class="flex justify-end">
-              <button type="button" id="testNotifyXBtn" class="btn-secondary text-white px-4 py-2 rounded-md text-sm font-medium">
+              <button type="button" id="testNotifyXBtn" class="btn-secondary">
                 <i class="fas fa-paper-plane mr-2"></i>测试 NotifyX 通知
               </button>
             </div>
           </div>
 
           <div id="webhookConfig" class="config-section">
-            <h4 class="text-md font-medium text-gray-900 mb-3">企业微信应用通知 配置</h4>
+            <h4 class="mb-3">企业微信应用通知 配置</h4>
             <div class="grid grid-cols-1 gap-4 mb-4">
               <div>
-                <label for="webhookUrl" class="block text-sm font-medium text-gray-700">企业微信应用通知 URL</label>
-                <input type="url" id="webhookUrl" placeholder="https://push.wangwangit.com/api/send/your-key" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <label for="webhookUrl" class="block text-sm font-medium text-gray-700 mb-1">企业微信应用通知 URL</label>
+                <input type="url" id="webhookUrl" placeholder="https://push.wangwangit.com/api/send/your-key">
                 <p class="mt-1 text-sm text-gray-500">从 <a href="https://push.wangwangit.com" target="_blank" class="text-indigo-600 hover:text-indigo-800">企业微信应用通知平台</a> 获取的推送URL</p>
               </div>
               <div>
-                <label for="webhookMethod" class="block text-sm font-medium text-gray-700">请求方法</label>
-                <select id="webhookMethod" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <label for="webhookMethod" class="block text-sm font-medium text-gray-700 mb-1">请求方法</label>
+                <select id="webhookMethod">
                   <option value="POST">POST</option>
                   <option value="GET">GET</option>
                   <option value="PUT">PUT</option>
                 </select>
               </div>
               <div>
-                <label for="webhookHeaders" class="block text-sm font-medium text-gray-700">自定义请求头 (JSON格式，可选)</label>
-                <textarea id="webhookHeaders" rows="3" placeholder='{"Authorization": "Bearer your-token", "Content-Type": "application/json"}' class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
+                <label for="webhookHeaders" class="block text-sm font-medium text-gray-700 mb-1">自定义请求头 (JSON格式，可选)</label>
+                <textarea id="webhookHeaders" rows="3" placeholder='{"Authorization": "Bearer your-token", "Content-Type": "application/json"}'></textarea>
                 <p class="mt-1 text-sm text-gray-500">JSON格式的自定义请求头，留空使用默认</p>
               </div>
               <div>
-                <label for="webhookTemplate" class="block text-sm font-medium text-gray-700">消息模板 (JSON格式，可选)</label>
-                <textarea id="webhookTemplate" rows="4" placeholder='{"title": "{{title}}", "content": "{{content}}", "timestamp": "{{timestamp}}"}' class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
+                <label for="webhookTemplate" class="block text-sm font-medium text-gray-700 mb-1">消息模板 (JSON格式，可选)</label>
+                <textarea id="webhookTemplate" rows="4" placeholder='{"title": "{{title}}", "content": "{{content}}", "timestamp": "{{timestamp}}"}'></textarea>
                 <p class="mt-1 text-sm text-gray-500">支持变量: {{title}}, {{content}}, {{timestamp}}。留空使用默认格式</p>
               </div>
             </div>
             <div class="flex justify-end">
-              <button type="button" id="testWebhookBtn" class="btn-secondary text-white px-4 py-2 rounded-md text-sm font-medium">
+              <button type="button" id="testWebhookBtn" class="btn-secondary">
                 <i class="fas fa-paper-plane mr-2"></i>测试 企业微信应用通知
               </button>
             </div>
           </div>
 
           <div id="wechatbotConfig" class="config-section">
-            <h4 class="text-md font-medium text-gray-900 mb-3">企业微信机器人 配置</h4>
+            <h4 class="mb-3">企业微信机器人 配置</h4>
             <div class="grid grid-cols-1 gap-4 mb-4">
               <div>
-                <label for="wechatbotWebhook" class="block text-sm font-medium text-gray-700">机器人 Webhook URL</label>
-                <input type="url" id="wechatbotWebhook" placeholder="https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=your-key" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <label for="wechatbotWebhook" class="block text-sm font-medium text-gray-700 mb-1">机器人 Webhook URL</label>
+                <input type="url" id="wechatbotWebhook" placeholder="https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=your-key">
                 <p class="mt-1 text-sm text-gray-500">从企业微信群聊中添加机器人获取的 Webhook URL</p>
               </div>
               <div>
-                <label for="wechatbotMsgType" class="block text-sm font-medium text-gray-700">消息类型</label>
-                <select id="wechatbotMsgType" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <label for="wechatbotMsgType" class="block text-sm font-medium text-gray-700 mb-1">消息类型</label>
+                <select id="wechatbotMsgType">
                   <option value="text">文本消息</option>
                   <option value="markdown">Markdown消息</option>
                 </select>
                 <p class="mt-1 text-sm text-gray-500">选择发送的消息格式类型</p>
               </div>
               <div>
-                <label for="wechatbotAtMobiles" class="block text-sm font-medium text-gray-700">@手机号 (可选)</label>
-                <input type="text" id="wechatbotAtMobiles" placeholder="13800138000,13900139000" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <label for="wechatbotAtMobiles" class="block text-sm font-medium text-gray-700 mb-1">@手机号 (可选)</label>
+                <input type="text" id="wechatbotAtMobiles" placeholder="13800138000,13900139000">
                 <p class="mt-1 text-sm text-gray-500">需要@的手机号，多个用逗号分隔，留空则不@任何人</p>
               </div>
               <div>
@@ -2353,38 +2388,38 @@ const configPage = `
               </div>
             </div>
             <div class="flex justify-end">
-              <button type="button" id="testWechatBotBtn" class="btn-secondary text-white px-4 py-2 rounded-md text-sm font-medium">
+              <button type="button" id="testWechatBotBtn" class="btn-secondary">
                 <i class="fas fa-paper-plane mr-2"></i>测试 企业微信机器人
               </button>
             </div>
           </div>
 
           <div id="emailConfig" class="config-section">
-            <h4 class="text-md font-medium text-gray-900 mb-3">邮件通知 配置</h4>
+            <h4 class="mb-3">邮件通知 配置</h4>
             <div class="grid grid-cols-1 gap-4 mb-4">
               <div>
-                <label for="resendApiKey" class="block text-sm font-medium text-gray-700">Resend API Key</label>
-                <input type="text" id="resendApiKey" placeholder="re_xxxxxxxxxx" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <label for="resendApiKey" class="block text-sm font-medium text-gray-700 mb-1">Resend API Key</label>
+                <input type="text" id="resendApiKey" placeholder="re_xxxxxxxxxx">
                 <p class="mt-1 text-sm text-gray-500">从 <a href="https://resend.com/api-keys" target="_blank" class="text-indigo-600 hover:text-indigo-800">Resend控制台</a> 获取的 API Key</p>
               </div>
               <div>
-                <label for="emailFrom" class="block text-sm font-medium text-gray-700">发件人邮箱</label>
-                <input type="email" id="emailFrom" placeholder="noreply@yourdomain.com" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <label for="emailFrom" class="block text-sm font-medium text-gray-700 mb-1">发件人邮箱</label>
+                <input type="email" id="emailFrom" placeholder="noreply@yourdomain.com">
                 <p class="mt-1 text-sm text-gray-500">必须是已在Resend验证的域名邮箱</p>
               </div>
               <div>
-                <label for="emailFromName" class="block text-sm font-medium text-gray-700">发件人名称</label>
-                <input type="text" id="emailFromName" placeholder="订阅提醒系统" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <label for="emailFromName" class="block text-sm font-medium text-gray-700 mb-1">发件人名称</label>
+                <input type="text" id="emailFromName" placeholder="订阅提醒系统">
                 <p class="mt-1 text-sm text-gray-500">显示在邮件中的发件人名称</p>
               </div>
               <div>
-                <label for="emailTo" class="block text-sm font-medium text-gray-700">收件人邮箱</label>
-                <input type="email" id="emailTo" placeholder="user@example.com" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <label for="emailTo" class="block text-sm font-medium text-gray-700 mb-1">收件人邮箱</label>
+                <input type="email" id="emailTo" placeholder="user@example.com">
                 <p class="mt-1 text-sm text-gray-500">接收通知邮件的邮箱地址</p>
               </div>
             </div>
             <div class="flex justify-end">
-              <button type="button" id="testEmailBtn" class="btn-secondary text-white px-4 py-2 rounded-md text-sm font-medium">
+              <button type="button" id="testEmailBtn" class="btn-secondary">
                 <i class="fas fa-paper-plane mr-2"></i>测试 邮件通知
               </button>
             </div>
@@ -2392,7 +2427,7 @@ const configPage = `
         </div>
 
         <div class="flex justify-end">
-          <button type="submit" class="btn-primary text-white px-6 py-2 rounded-md text-sm font-medium">
+          <button type="submit" class="btn-primary">
             <i class="fas fa-save mr-2"></i>保存配置
           </button>
         </div>
@@ -2407,8 +2442,8 @@ const configPage = `
       toast.className = 'toast ' + type;
       
       const icon = type === 'success' ? 'check-circle' :
-                   type === 'error' ? 'exclamation-circle' :
-                   type === 'warning' ? 'exclamation-triangle' : 'info-circle';
+                    type === 'error' ? 'exclamation-circle' :
+                    type === 'warning' ? 'exclamation-triangle' : 'info-circle';
       
       toast.innerHTML = '<div class="flex items-center"><i class="fas fa-' + icon + ' mr-2"></i><span>' + message + '</span></div>';
       
