@@ -465,18 +465,321 @@ const adminPage = `
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <style>
-    .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); transition: all 0.3s; }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); }
-    .btn-danger { background: linear-gradient(135deg, #f87171 0%, #dc2626 100%); transition: all 0.3s; }
-    .btn-danger:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); }
-    .btn-success { background: linear-gradient(135deg, #34d399 0%, #059669 100%); transition: all 0.3s; }
-    .btn-success:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); }
-    .btn-warning { background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%); transition: all 0.3s; }
-    .btn-warning:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); }
-    .btn-info { background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%); transition: all 0.3s; }
-    .btn-info:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); }
-    .table-container { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
-    .modal-container { backdrop-filter: blur(8px); }
+    /* 新拟态风格全局变量 */
+    :root {
+      --neumorphic-bg: #f0f2f5;
+      --neumorphic-light: #ffffff;
+      --neumorphic-shadow-light: #ffffff80;
+      --neumorphic-shadow-dark: #0000001a;
+      --neumorphic-text: #4a5568;
+      --neumorphic-primary: #667eea;
+      --neumorphic-danger: #f87171;
+      --neumorphic-success: #34d399;
+      --neumorphic-warning: #fbbf24;
+      --neumorphic-info: #3b82f6;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 100%);
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    /* 新拟态导航栏 */
+    nav {
+      background: #f0f0f0;
+      border-radius: 20px;
+      box-shadow: 
+        10px 10px 20px #d0d0d0,
+        -10px -10px 20px #ffffff;
+      margin: 20px;
+      padding: 0 20px;
+      position: relative;
+    }
+    
+    nav::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(135deg, #ffffff, #d0d0d0);
+      border-radius: 22px;
+      z-index: -1;
+    }
+    
+    /* 新拟态按钮样式 */
+    .btn-primary {
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      background: #f0f0f0;
+      color: #333;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 
+        5px 5px 10px #d0d0d0,
+        -5px -5px 10px #ffffff;
+    }
+    
+    .btn-primary:hover {
+      box-shadow: 
+        3px 3px 6px #d0d0d0,
+        -3px -3px 6px #ffffff;
+      transform: translateY(2px);
+    }
+    
+    .btn-primary:active {
+      box-shadow: 
+        inset 5px 5px 10px #d0d0d0,
+        inset -5px -5px 10px #ffffff;
+    }
+    
+    .btn-danger {
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      background: #f0f0f0;
+      color: #e74c3c;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 
+        5px 5px 10px #d0d0d0,
+        -5px -5px 10px #ffffff;
+    }
+    
+    .btn-danger:hover {
+      box-shadow: 
+        3px 3px 6px #d0d0d0,
+        -3px -3px 6px #ffffff;
+      transform: translateY(2px);
+    }
+    
+    .btn-danger:active {
+      box-shadow: 
+        inset 5px 5px 10px #d0d0d0,
+        inset -5px -5px 10px #ffffff;
+    }
+    
+    .btn-success {
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      background: #f0f0f0;
+      color: #2ecc71;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 
+        5px 5px 10px #d0d0d0,
+        -5px -5px 10px #ffffff;
+    }
+    
+    .btn-success:hover {
+      box-shadow: 
+        3px 3px 6px #d0d0d0,
+        -3px -3px 6px #ffffff;
+      transform: translateY(2px);
+    }
+    
+    .btn-success:active {
+      box-shadow: 
+        inset 5px 5px 10px #d0d0d0,
+        inset -5px -5px 10px #ffffff;
+    }
+    
+    .btn-warning {
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      background: #f0f0f0;
+      color: #f39c12;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 
+        5px 5px 10px #d0d0d0,
+        -5px -5px 10px #ffffff;
+    }
+    
+    .btn-warning:hover {
+      box-shadow: 
+        3px 3px 6px #d0d0d0,
+        -3px -5px 6px #ffffff;
+      transform: translateY(2px);
+    }
+    
+    .btn-warning:active {
+      box-shadow: 
+        inset 5px 5px 10px #d0d0d0,
+        inset -5px -5px 10px #ffffff;
+    }
+    
+    .btn-info {
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      background: #f0f0f0;
+      color: #3498db;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 
+        5px 5px 10px #d0d0d0,
+        -5px -5px 10px #ffffff;
+    }
+    
+    .btn-info:hover {
+      box-shadow: 
+        3px 3px 6px #d0d0d0,
+        -3px -5px 6px #ffffff;
+      transform: translateY(2px);
+    }
+    
+    .btn-info:active {
+      box-shadow: 
+        inset 5px 5px 10px #d0d0d0,
+        inset -5px -5px 10px #ffffff;
+    }
+    
+    /* 新拟态表格容器 */
+    .table-container {
+      background: #f0f0f0;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 
+        10px 10px 20px #d0d0d0,
+        -10px -10px 20px #ffffff;
+      position: relative;
+      margin-top: 20px;
+    }
+    
+    .table-container::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(135deg, #ffffff, #d0d0d0);
+      border-radius: 22px;
+      z-index: -1;
+    }
+    
+    /* 新拟态模态框 */
+    .modal-content {
+      background: #f0f0f0;
+      border-radius: 20px;
+      box-shadow: 
+        10px 10px 20px #d0d0d0,
+        -10px -10px 20px #ffffff;
+      position: relative;
+    }
+    
+    .modal-content::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(135deg, #ffffff, #d0d0d0);
+      border-radius: 22px;
+      z-index: -1;
+    }
+    
+    /* 新拟态表单元素 */
+    input, select, textarea {
+      width: 100%;
+      padding: 15px 20px;
+      border: none;
+      border-radius: 12px;
+      background: #f0f0f0;
+      box-shadow: 
+        inset 5px 5px 10px #d0d0d0,
+        inset -5px -5px 10px #ffffff;
+      font-size: 16px;
+      color: #333;
+      transition: all 0.3s ease;
+    }
+    
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      box-shadow: 
+        inset 5px 5px 10px #c0c0c0,
+        inset -5px -5px 10px #ffffff,
+        0 0 0 3px rgba(102, 126, 234, 0.25);
+    }
+    
+    /* 新拟态标题 */
+    h2 {
+      color: #333;
+      font-size: 28px;
+      font-weight: 700;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+    
+    h3 {
+      color: #333;
+      font-size: 24px;
+      font-weight: 700;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+    
+    /* 新拟态表格 */
+    .responsive-table {
+      background: #f0f0f0;
+      border-radius: 12px;
+      box-shadow: 
+        inset 5px 5px 10px #d0d0d0,
+        inset -5px -5px 10px #ffffff;
+    }
+    
+    .responsive-table thead {
+      background: #e0e0e0;
+      border-radius: 12px 12px 0 0;
+    }
+    
+    /* 新拟态标签 */
+    .lunar-toggle {
+      display: inline-flex;
+      align-items: center;
+      padding: 15px 20px;
+      border: none;
+      border-radius: 12px;
+      background: #f0f0f0;
+      box-shadow: 
+        5px 5px 10px #d0d0d0,
+        -5px -5px 10px #ffffff;
+      font-size: 16px;
+      color: #333;
+      transition: all 0.3s ease;
+      margin-bottom: 8px;
+    }
+    
+    .lunar-toggle input[type="checkbox"] {
+      margin-right: 10px;
+    }
+    
+    /* 新拟态状态标签 */
+    .status-badge {
+      border-radius: 20px;
+      box-shadow: 
+        3px 3px 6px #d0d0d0,
+        -3px -3px 6px #ffffff;
+      padding: 8px 16px;
+      font-weight: 600;
+    }
+    
+    /* 保持原有功能性样式 */
     .readonly-input { background-color: #f8fafc; border-color: #e2e8f0; cursor: not-allowed; }
     .error-message { font-size: 0.875rem; margin-top: 0.25rem; display: none; }
     .error-message.show { display: block; }
@@ -603,15 +906,6 @@ const adminPage = `
     .lunar-display.show {
       opacity: 1;
     }
-    .lunar-toggle {
-      display: inline-flex;
-      align-items: center;
-      margin-bottom: 8px;
-      font-size: 0.875rem;
-    }
-    .lunar-toggle input[type="checkbox"] {
-      margin-right: 6px;
-    }
 
     /* 表格布局优化 */
     .table-container {
@@ -680,10 +974,10 @@ const adminPage = `
     .toast.warning { background-color: #f59e0b; }
   </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
+<body class="min-h-screen">
   <div id="toast-container"></div>
 
-  <nav class="bg-white shadow-md">
+  <nav class="shadow-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16">
         <div class="flex items-center">
@@ -707,19 +1001,19 @@ const adminPage = `
   
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div class="flex justify-between items-center mb-6">
-      <h2 class="text-2xl font-bold text-gray-800">订阅列表</h2>
+      <h2 class="text-2xl font-bold">订阅列表</h2>
       <div class="flex items-center space-x-4">
         <label class="lunar-toggle">
           <input type="checkbox" id="listShowLunar" class="form-checkbox h-4 w-4 text-indigo-600">
           <span class="text-gray-700">显示农历</span>
         </label>
-        <button id="addSubscriptionBtn" class="btn-primary text-white px-4 py-2 rounded-md text-sm font-medium flex items-center">
+        <button id="addSubscriptionBtn" class="btn-primary flex items-center">
           <i class="fas fa-plus mr-2"></i>添加新订阅
         </button>
       </div>
     </div>
     
-    <div class="table-container bg-white rounded-lg overflow-hidden">
+    <div class="table-container">
       <div class="overflow-x-auto">
         <table class="w-full divide-y divide-gray-200 responsive-table">
           <thead class="bg-gray-50">
@@ -753,7 +1047,7 @@ const adminPage = `
 
   <!-- 添加/编辑订阅的模态框 -->
   <div id="subscriptionModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 modal-container hidden flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-screen overflow-y-auto">
+    <div class="modal-content max-w-2xl w-full mx-4 max-h-screen overflow-y-auto">
       <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 rounded-t-lg">
         <div class="flex items-center justify-between">
           <h3 id="modalTitle" class="text-lg font-medium text-gray-900">添加新订阅</h3>
@@ -769,15 +1063,13 @@ const adminPage = `
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label for="name" class="block text-sm font-medium text-gray-700 mb-1">订阅名称 *</label>
-            <input type="text" id="name" required
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+            <input type="text" id="name" required>
             <div class="error-message text-red-500"></div>
           </div>
           
           <div>
             <label for="customType" class="block text-sm font-medium text-gray-700 mb-1">订阅类型</label>
-            <input type="text" id="customType" placeholder="例如：流媒体、云服务、软件等"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+            <input type="text" id="customType" placeholder="例如：流媒体、云服务、软件等">
             <div class="error-message text-red-500"></div>
           </div>
         </div>
@@ -788,34 +1080,31 @@ const adminPage = `
             <span class="text-gray-700">显示农历日期</span>
           </label>
         </div>
-		<!-- 新增修改，在表单添加"周期按农历"复选框，建议放在"显示农历日期"下方 -->
-		<div class="mb-4">
-		  <label class="lunar-toggle">
-			<input type="checkbox" id="useLunar" class="form-checkbox h-4 w-4 text-indigo-600">
-			<span class="text-gray-700">周期按农历</span>
-		  </label>
-		</div>
+    <!-- 新增修改，在表单添加"周期按农历"复选框，建议放在"显示农历日期"下方 -->
+    <div class="mb-4">
+      <label class="lunar-toggle">
+        <input type="checkbox" id="useLunar" class="form-checkbox h-4 w-4 text-indigo-600">
+        <span class="text-gray-700">周期按农历</span>
+      </label>
+    </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
             <label for="startDate" class="block text-sm font-medium text-gray-700 mb-1">开始日期</label>
-            <input type="date" id="startDate"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+            <input type="date" id="startDate">
             <div id="startDateLunar" class="lunar-display"></div>
             <div class="error-message text-red-500"></div>
           </div>
           
           <div>
             <label for="periodValue" class="block text-sm font-medium text-gray-700 mb-1">周期数值 *</label>
-            <input type="number" id="periodValue" min="1" value="1" required
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+            <input type="number" id="periodValue" min="1" value="1" required>
             <div class="error-message text-red-500"></div>
           </div>
           
           <div>
             <label for="periodUnit" class="block text-sm font-medium text-gray-700 mb-1">周期单位 *</label>
-            <select id="periodUnit" required
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+            <select id="periodUnit" required>
               <option value="day">天</option>
               <option value="month" selected>月</option>
               <option value="year">年</option>
@@ -827,15 +1116,13 @@ const adminPage = `
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label for="expiryDate" class="block text-sm font-medium text-gray-700 mb-1">到期日期 *</label>
-            <input type="date" id="expiryDate" required
-              class="readonly-input w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none">
+            <input type="date" id="expiryDate" required class="readonly-input">
             <div id="expiryDateLunar" class="lunar-display"></div>
             <div class="error-message text-red-500"></div>
           </div>
           
           <div class="flex items-end">
-            <button type="button" id="calculateExpiryBtn" 
-              class="btn-primary text-white px-4 py-2 rounded-md text-sm font-medium h-10">
+            <button type="button" id="calculateExpiryBtn" class="btn-primary h-10">
               <i class="fas fa-calculator mr-2"></i>自动计算到期日期
             </button>
           </div>
@@ -844,8 +1131,7 @@ const adminPage = `
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label for="reminderDays" class="block text-sm font-medium text-gray-700 mb-1">提前提醒天数</label>
-            <input type="number" id="reminderDays" min="0" value="7"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+            <input type="number" id="reminderDays" min="0" value="7">
             <p class="text-xs text-gray-500 mt-1">0 = 仅到期日当天提醒，1+ = 提前N天开始提醒</p>
             <div class="error-message text-red-500"></div>
           </div>
@@ -854,13 +1140,11 @@ const adminPage = `
             <label class="block text-sm font-medium text-gray-700 mb-3">选项设置</label>
             <div class="space-y-2">
               <label class="inline-flex items-center">
-                <input type="checkbox" id="isActive" checked 
-                  class="form-checkbox h-4 w-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
+                <input type="checkbox" id="isActive" checked class="form-checkbox h-4 w-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
                 <span class="ml-2 text-sm text-gray-700">启用订阅</span>
               </label>
               <label class="inline-flex items-center">
-                <input type="checkbox" id="autoRenew" checked 
-                  class="form-checkbox h-4 w-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
+                <input type="checkbox" id="autoRenew" checked class="form-checkbox h-4 w-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
                 <span class="ml-2 text-sm text-gray-700">自动续订</span>
               </label>
             </div>
@@ -869,24 +1153,22 @@ const adminPage = `
         
         <div>
           <label for="notes" class="block text-sm font-medium text-gray-700 mb-1">备注</label>
-          <textarea id="notes" rows="3" placeholder="可添加相关备注信息..."
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+          <textarea id="notes" rows="3" placeholder="可添加相关备注信息..."></textarea>
           <div class="error-message text-red-500"></div>
         </div>
         
         <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200">
-          <button type="button" id="cancelBtn" 
-            class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+          <button type="button" id="cancelBtn" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
             取消
           </button>
-          <button type="submit" 
-            class="btn-primary text-white px-4 py-2 rounded-md text-sm font-medium">
+          <button type="submit" class="btn-primary">
             <i class="fas fa-save mr-2"></i>保存
           </button>
         </div>
       </form>
     </div>
   </div>
+
 
   <script>
     // 时区工具函数 - 前端版本
