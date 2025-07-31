@@ -1,5 +1,5 @@
 # wrangler.toml
-name = 'sub-expiry-notice-deployer'
+name = 'subscription-manager'
 main = "index.js"
 compatibility_date = "2024-01-01"
 compatibility_flags = ["nodejs_compat"]
