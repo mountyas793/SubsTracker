@@ -2169,6 +2169,72 @@ const configPage = `
       box-shadow: 
         inset 5px 5px 10px #d0d0d0,
         inset -5px -5px 10px #ffffff;
+      background: #f0f0f0;
+      box-shadow: 
+        inset 5px 5px 10px #d0d0d0,
+        inset -5px -5px 10px #ffffff;
+      font-size: 16px;
+      color: #333;
+      transition: all 0.3s ease;
+    }
+    
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      box-shadow: 
+        inset 5px 5px 10px #c0c0c0,
+        inset -5px -5px 10px #ffffff,
+        0 0 0 3px rgba(102, 126, 234, 0.25);
+    }
+    
+    /* 新拟态标题 */
+    h2 {
+      color: #333;
+      font-size: 28px;
+      font-weight: 700;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+    
+    h3 {
+      color: #333;
+      font-size: 24px;
+      font-weight: 700;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+    
+    h4 {
+      color: #333;
+      font-size: 20px;
+      font-weight: 700;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+    
+    .config-section {
+      background: #f0f0f0;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 
+        10px 10px 20px #d0d0d0,
+        -10px -10px 20px #ffffff;
+      position: relative;
+      margin-bottom: 24px;
+    }
+    
+    .config-section::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(135deg, #ffffff, #d0d0d0);
+      border-radius: 22px;
+      z-index: -1;
+    }
+    
+    .config-section.active {
+      box-shadow: 
+        inset 5px 5px 10px #d0d0d0,
+        inset -5px -5px 10px #ffffff;
     }
     
     .config-section.inactive {
@@ -2191,6 +2257,28 @@ const configPage = `
     .readonly-input { background-color: #f8fafc; border-color: #e2e8f0; cursor: not-allowed; }
     .error-message { font-size: 0.875rem; margin-top: 0.25rem; display: none; }
     .error-message.show { display: block; }
+    
+    /* 新拟态复选框样式 */
+    input[type="checkbox"] {
+      width: auto;
+      padding: 0;
+      box-shadow: 
+        3px 3px 6px #d0d0d0,
+        -3px -3px 6px #ffffff;
+    }
+    
+    input[type="checkbox"]:focus {
+      box-shadow: 
+        3px 3px 6px #c0c0c0,
+        -3px -3px 6px #ffffff,
+        0 0 0 3px rgba(102, 126, 234, 0.25);
+    }
+    
+    input[type="checkbox"]:checked {
+      box-shadow: 
+        inset 2px 2px 4px #d0d0d0,
+        inset -2px -2px 4px #ffffff;
+    }
   </style>
 </head>
 <body class="bg-gray-100 min-h-screen">
