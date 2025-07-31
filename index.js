@@ -245,62 +245,175 @@ const loginPage = `
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <style>
     .login-container {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 100%);
       min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
+    
     .login-box {
-      backdrop-filter: blur(8px);
-      background-color: rgba(255, 255, 255, 0.9);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      background: #f0f0f0;
+      border-radius: 20px;
+      padding: 40px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow:  
+        10px 10px 20px #d0d0d0,
+        -10px -10px 20px #ffffff;
+      position: relative;
     }
-    .btn-primary {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      transition: all 0.3s;
+    
+    .login-box::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(135deg, #ffffff, #d0d0d0);
+      border-radius: 22px;
+      z-index: -1;
     }
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    
+    .login-title {
+      text-align: center;
+      margin-bottom: 30px;
     }
+    
+    .login-title h1 {
+      color: #333;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+    
+    .login-title p {
+      color: #666;
+      font-size: 16px;
+    }
+    
+    .input-group {
+      margin-bottom: 25px;
+    }
+    
+    .input-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #555;
+      font-weight: 500;
+      font-size: 16px;
+    }
+    
     .input-field {
-      transition: all 0.3s;
-      border: 1px solid #e2e8f0;
+      width: 100%;
+      padding: 15px 20px;
+      border: none;
+      border-radius: 12px;
+      background: #f0f0f0;
+      box-shadow: 
+        inset 5px 5px 10px #d0d0d0,
+        inset -5px -5px 10px #ffffff;
+      font-size: 16px;
+      color: #333;
+      transition: all 0.3s ease;
     }
+    
     .input-field:focus {
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.25);
+      outline: none;
+      box-shadow: 
+        inset 5px 5px 10px #c0c0c0,
+        inset -5px -5px 10px #ffffff,
+        0 0 0 3px rgba(102, 126, 234, 0.25);
+    }
+    
+    .btn-primary {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      background: #f0f0f0;
+      color: #333;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 
+        5px 5px 10px #d0d0d0,
+        -5px -5px 10px #ffffff;
+    }
+    
+    .btn-primary:hover {
+      box-shadow: 
+        3px 3px 6px #d0d0d0,
+        -3px -3px 6px #ffffff;
+      transform: translateY(2px);
+    }
+    
+    .btn-primary:active {
+      box-shadow: 
+        inset 5px 5px 10px #d0d0d0,
+        inset -5px -5px 10px #ffffff;
+    }
+    
+    .error-message {
+      color: #e74c3c;
+      text-align: center;
+      margin-top: 20px;
+      font-size: 16px;
+      min-height: 24px;
+    }
+    
+    .neumorphic-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #f0f0f0;
+      box-shadow: 
+        5px 5px 10px #d0d0d0,
+        -5px -5px 10px #ffffff;
+      margin-bottom: 20px;
     }
   </style>
 </head>
-<body class="login-container flex items-center justify-center">
-  <div class="login-box p-8 rounded-xl w-full max-w-md">
-    <div class="text-center mb-8">
-      <h1 class="text-2xl font-bold text-gray-800"><i class="fas fa-calendar-check mr-2"></i>订阅管理系统</h1>
-      <p class="text-gray-600 mt-2">登录管理您的订阅提醒</p>
+<body class="login-container">
+  <div class="login-box">
+    <div class="login-title">
+      <div class="neumorphic-icon mx-auto">
+        <i class="fas fa-calendar-check text-2xl text-indigo-600"></i>
+      </div>
+      <h1>订阅管理系统</h1>
+      <p>登录管理您的订阅提醒</p>
     </div>
     
-    <form id="loginForm" class="space-y-6">
-      <div>
-        <label for="username" class="block text-sm font-medium text-gray-700 mb-1">
+    <form id="loginForm">
+      <div class="input-group">
+        <label for="username">
           <i class="fas fa-user mr-2"></i>用户名
         </label>
         <input type="text" id="username" name="username" required
-          class="input-field w-full px-4 py-3 rounded-lg text-gray-700 focus:outline-none">
+          class="input-field">
       </div>
       
-      <div>
-        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
+      <div class="input-group">
+        <label for="password">
           <i class="fas fa-lock mr-2"></i>密码
         </label>
         <input type="password" id="password" name="password" required
-          class="input-field w-full px-4 py-3 rounded-lg text-gray-700 focus:outline-none">
+          class="input-field">
       </div>
       
       <button type="submit" 
-        class="btn-primary w-full py-3 rounded-lg text-white font-medium focus:outline-none">
+        class="btn-primary">
         <i class="fas fa-sign-in-alt mr-2"></i>登录
       </button>
       
-      <div id="errorMsg" class="text-red-500 text-center"></div>
+      <div id="errorMsg" class="error-message"></div>
     </form>
   </div>
   
