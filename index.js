@@ -466,206 +466,288 @@ const adminPage = `<!DOCTYPE html>
   <style>
     /* 新拟态风格全局变量 */
     :root {
-      --neumorphic-bg: #f0f2f5;
-      --neumorphic-light: #ffffff;
-      --neumorphic-shadow-light: #ffffff80;
-      --neumorphic-shadow-dark: #0000001a;
-      --neumorphic-text: #4a5568;
-      --neumorphic-primary: #667eea;
-      --neumorphic-danger: #f87171;
-      --neumorphic-success: #34d399;
-      --neumorphic-warning: #fbbf24;
-      --neumorphic-info: #3b82f6;
+      --glass-bg: rgba(255, 255, 255, 0.25);
+      --glass-border: rgba(255, 255, 255, 0.18);
+      --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      --glass-backdrop: blur(4px);
+      --glass-text: #333;
     }
     
-    body {
-      background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 100%);
+    html, body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
+      margin: 0;
+      padding: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow: hidden;
+      /* color: #222; */
+      /* text-shadow: 0 0 2px rgba(255, 255, 255, 0.4); */
+    }
+
+    /* 2. 如果内部区域需要滚动，单独给滚动容器加 */
+    .overflow-scroll-inner {
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .overflow-scroll-inner::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* 3. 让主内容区域占满可视高度 */
+    #contentArea {
+      margin-top: 64px;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
     
-    /* 新拟态导航栏 */
+    /* 导航栏玻璃拟态样式 */
     nav {
-      background: #f0f0f0;
-      border-radius: 20px;
-      box-shadow: 
-        10px 10px 20px #d0d0d0,
-        -10px -10px 20px #ffffff;
-      margin: 20px;
+      background: var(--glass-bg);
+      border-radius: 17px;
+      border: 3px solid var(--glass-border);
+      backdrop-filter: var(--glass-backdrop);
+      -webkit-backdrop-filter: var(--glass-backdrop);
+      box-shadow: var(--glass-shadow);
+      margin: 3px 20px;
       padding: 0 20px;
       position: relative;
     }
     
-    nav::before {
-      content: '';
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: linear-gradient(135deg, #ffffff, #d0d0d0);
-      border-radius: 22px;
-      z-index: -1;
+    nav a {
+      color: var(--glass-text);
     }
     
-    /* 新拟态按钮样式 */
+    nav a:hover {
+      color: #230379;
+    }
+    
+    nav a#listLink {
+      color: #4c5da7;
+      border-color: #e0e1e6;
+    }
+    
+    /* 玻璃拟态按钮样式 */
     .btn-primary {
-      padding: 15px;
-      border: none;
       border-radius: 12px;
-      background: #f0f0f0;
-      color: #333;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
+      border: 1px solid var(--glass-border);
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-backdrop);
+      -webkit-backdrop-filter: var(--glass-backdrop);
+      box-shadow: var(--glass-shadow);
       transition: all 0.3s ease;
-      box-shadow: 
-        5px 5px 10px #d0d0d0,
-        -5px -5px 10px #ffffff;
+      font-weight: 600;
+      padding: 10px 20px;
+      cursor: pointer;
+      color: var(--glass-text);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.4) 0%, rgba(118, 75, 162, 0.4) 100%);
     }
     
     .btn-primary:hover {
-      box-shadow: 
-        3px 3px 6px #d0d0d0,
-        -3px -3px 6px #ffffff;
-      transform: translateY(2px);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.5);
     }
     
     .btn-primary:active {
-      box-shadow: 
-        inset 5px 5px 10px #d0d0d0,
-        inset -5px -5px 10px #ffffff;
+      transform: translateY(0);
+      box-shadow: 0 4px 20px 0 rgba(31, 38, 135, 0.3);
+    }
+
+    /* Toast 样式 */
+    .toast {
+      position: fixed; 
+      top: 80px; 
+      right: 20px; 
+      padding: 12px 20px; 
+      border-radius: 10px;
+      color: white; 
+      font-weight: 500; 
+      z-index: 1000; 
+      transform: translateX(400px);
+      transition: all 0.3s ease-in-out; 
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-backdrop);
+      -webkit-backdrop-filter: var(--glass-backdrop);
+      border: 1px solid var(--glass-border);
+    }
+    .toast.show { transform: translateX(0); }
+    .toast.success { background-color: rgba(16, 185, 129, 0.7); }
+    .toast.error { background-color: rgba(239, 68, 68, 0.7); }
+    .toast.info { background-color: rgba(59, 130, 246, 0.7); }
+    .toast.warning { background-color: rgba(245, 158, 11, 0.7); }
+
+    /* 弹窗容器：统一玻璃拟态 */
+    .modal-container {
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-backdrop);
+      -webkit-backdrop-filter: var(--glass-backdrop);
+    }
+
+    /* 弹窗头部玻璃条 */
+    .modal-header {
+      background: var(--glass-bg);
+      border-bottom: 4px solid var(--glass-border);
+      backdrop-filter: var(--glass-backdrop);
+      -webkit-backdrop-filter: var(--glass-backdrop);
     }
     
-    /* 其他按钮样式类似... */
-    
-    /* 新拟态表格容器 */
-    .table-container {
-      background: #f0f0f0;
-      border-radius: 20px;
-      padding: 40px;
-      box-shadow: 
-        10px 10px 20px #d0d0d0,
-        -10px -10px 20px #ffffff;
-      position: relative;
-      margin-top: 20px;
-    }
-    
-    .table-container::before {
-      content: '';
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: linear-gradient(135deg, #ffffff, #d0d0d0);
-      border-radius: 22px;
-      z-index: -1;
-    }
-    
-    /* 新拟态模态框 */
+    /* 玻璃拟态弹窗 */
     .modal-content {
-      background: #f0f0f0;
+      background: var(--glass-bg);
       border-radius: 20px;
-      box-shadow: 
-        10px 10px 20px #d0d0d0,
-        -10px -10px 20px #ffffff;
-      position: relative;
+      border: 3px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+      backdrop-filter: var(--glass-backdrop);
+      -webkit-backdrop-filter: var(--glass-backdrop);
+      color: var(--glass-text);
+      overflow: hidden;
     }
-    
-    .modal-content::before {
-      content: '';
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: linear-gradient(135deg, #ffffff, #d0d0d0);
-      border-radius: 22px;
-      z-index: -1;
+
+    /* 玻璃拟态表格容器 */
+    .table-container {
+      overflow: hidden;
     }
-    
-    /* 新拟态表单元素 */
-    input, select, textarea {
+
+    /* 新拟态表格-内嵌表格样式 */
+    .overflow-x-auto {
+      height: 70vh;
+      overflow-y: auto;
+      overflow-x: auto;
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-backdrop);
+      -webkit-backdrop-filter: var(--glass-backdrop);
+      border-radius: 15px;
+      border: 3px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+      padding: 0;
+    }
+
+    /* 玻璃拟态表格 */
+    .responsive-table {
       width: 100%;
-      padding: 15px 20px;
-      border: none;
+      background: transparent;
+      border-radius: 0;
+      padding: 0;
+      margin: 0;
+    }
+
+    /* 表头玻璃化 */
+    .responsive-table thead {
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-backdrop);
+      -webkit-backdrop-filter: var(--glass-backdrop);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* 表格行玻璃化 */
+    .responsive-table tbody tr {
+      background: var(--glass-bg);
+      transition: background 0.2s ease;
+    }
+
+    .responsive-table tbody tr:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* 表格分割线淡化 */
+    .responsive-table td,
+    .responsive-table th {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    } 
+
+    /* 表格文本颜色 */
+    .responsive-table,
+    .responsive-table td,
+    .responsive-table th {
+      color: #222;
+      text-shadow: 0 0 2px rgba(255, 255, 255, 0.4);
+    }
+    
+    /* 强制所有表格行和单元格透明 */
+    .responsive-table *,
+    .responsive-table tr,
+    .responsive-table td,
+    .responsive-table th {
+      background: transparent !important;
+      border-color: rgba(255, 255, 255, 0.15) !important;
+    }
+    
+    /* 玻璃拟态表单元素 */
+    input, select, textarea {
+      border: 4px solid var(--glass-border);
       border-radius: 12px;
-      background: #f0f0f0;
-      box-shadow: 
-        inset 5px 5px 10px #d0d0d0,
-        inset -5px -5px 10px #ffffff;
-      font-size: 16px;
-      color: #333;
+      padding: 10px 15px;
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-backdrop);
+      -webkit-backdrop-filter: var(--glass-backdrop);
+      box-shadow: var(--glass-shadow);
       transition: all 0.3s ease;
+      width: 100%;
+      box-sizing: border-box;
+      color: var(--glass-text);
     }
     
     input:focus, select:focus, textarea:focus {
       outline: none;
-      box-shadow: 
-        inset 5px 5px 10px #c0c0c0,
-        inset -5px -5px 10px #ffffff,
-        0 0 0 3px rgba(102, 126, 234, 0.25);
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.25), var(--glass-shadow);
     }
     
-    /* 新拟态标题 */
+    /* 玻璃拟态标题 */
     h2 {
-      color: #333;
+      color: var(--glass-text);
       font-size: 28px;
       font-weight: 700;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
     }
     
     h3 {
-      color: #333;
+      color: var(--glass-text);
       font-size: 24px;
       font-weight: 700;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
     }
     
-    /* 新拟态表格 */
-    .responsive-table {
-      background: #f0f0f0;
-      border-radius: 12px;
-      box-shadow: 
-        inset 5px 5px 10px #d0d0d0,
-        inset -5px -5px 10px #ffffff;
+    h4 {
+      color: var(--glass-text);
+      font-size: 20px;
+      font-weight: 700;
     }
-    
-    .responsive-table thead {
-      background: #e0e0e0;
-      border-radius: 12px 12px 0 0;
-    }
-    
-    /* 新拟态标签 */
-    .lunar-toggle {
-      display: inline-flex;
-      align-items: center;
-      padding: 15px 20px;
-      border: none;
-      border-radius: 12px;
-      background: #f0f0f0;
-      box-shadow: 
-        5px 5px 10px #d0d0d0,
-        -5px -5px 10px #ffffff;
-      font-size: 16px;
-      color: #333;
+
+    /* 玻璃拟态复选框样式 */
+    input[type="checkbox"] {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: var(--glass-backdrop);
+      -webkit-backdrop-filter: var(--glass-backdrop);
+      box-shadow: var(--glass-shadow);
+      position: relative;
+      cursor: pointer;
       transition: all 0.3s ease;
-      margin-bottom: 8px;
     }
     
-    .lunar-toggle input[type="checkbox"] {
-      margin-right: 10px;
+    input[type="checkbox"]:focus {
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.25), var(--glass-shadow);
     }
     
-    /* 新拟态状态标签 */
-    .status-badge {
-      border-radius: 20px;
-      box-shadow: 
-        3px 3px 6px #d0d0d0,
-        -3px -3px 6px #ffffff;
-      padding: 8px 16px;
-      font-weight: 600;
+    input[type="checkbox"]:checked {
+      background: rgba(102, 126, 234, 0.4);
+    }
+    
+    input[type="checkbox"]:checked::after {
+      content: '\\2714';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--glass-text);
+      font-size: 14px;
+      font-weight: bold;
     }
     
     /* 农历显示样式 */
@@ -681,24 +763,15 @@ const adminPage = `<!DOCTYPE html>
       opacity: 1;
     }
     
-    /* Toast 样式 */
-    .toast {
-      position: fixed; top: 20px; right: 20px; padding: 12px 20px; border-radius: 8px;
-      color: white; font-weight: 500; z-index: 1000; transform: translateX(400px);
-      transition: all 0.3s ease-in-out; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-    
-    .toast.show { transform: translateX(0); }
-    
     /* 备注气泡样式 */
     .notes-tooltip {
       position: absolute;
       z-index: 1000;
       padding: 8px;
-      background: #1f2937;
-      color: white;
+      background: var(--glass-bg);
+      color: var(--glass-text);
       border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--glass-shadow);
       font-size: 12px;
       white-space: normal;
       max-width: 200px;
@@ -723,29 +796,30 @@ const adminPage = `<!DOCTYPE html>
     }
     
     /* 保持原有功能性样式 */
-    .readonly-input { background-color: #f8fafc; border-color: #e2e8f0; cursor: not-allowed; }
+    /* .readonly-input { background-color: #f8fafc; border-color: #e2e8f0; cursor: not-allowed; }
     .error-message { font-size: 0.875rem; margin-top: 0.25rem; display: none; }
-    .error-message.show { display: block; }
+    .error-message.show { display: block; } */
   </style>
 </head>
 <body class="min-h-screen">
   <div id="toast-container"></div>
 
-  <nav class="shadow-md">
+  <!-- 导航栏 -->
+  <nav class="fixed top-0 left-0 right-0 z-50" >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16">
         <div class="flex items-center">
           <i class="fas fa-calendar-check text-indigo-600 text-2xl mr-2"></i>
-          <span class="font-bold text-xl text-gray-800">订阅管理系统</span>
+          <span class="font-bold text-xl">订阅管理系统</span>
         </div>
         <div class="flex items-center space-x-4">
-          <a href="/admin" class="text-indigo-600 border-b-2 border-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
+          <a id="listLink" href="/admin" class="px-3 py-2 rounded-md text-sm font-medium border-b-2">
             <i class="fas fa-list mr-1"></i>订阅列表
           </a>
-          <a href="/admin/config" class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+          <a id="configLink" href="/admin/config" class="px-3 py-2 rounded-md text-sm font-medium ">
             <i class="fas fa-cog mr-1"></i>系统配置
           </a>
-          <a href="/api/logout" class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+          <a id="logoutLink" href="/api/logout" class="px-3 py-2 rounded-md text-sm font-medium"> 
             <i class="fas fa-sign-out-alt mr-1"></i>退出登录
           </a>
         </div>
@@ -753,7 +827,9 @@ const adminPage = `<!DOCTYPE html>
     </div>
   </nav>
   
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <!-- 内容区域 -->
+  <div id="contentArea" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" >
+    <!-- 订阅列表标题 -->
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-2xl font-bold">订阅列表</h2>
       <div class="flex items-center space-x-4">
@@ -766,28 +842,29 @@ const adminPage = `<!DOCTYPE html>
         </button>
       </div>
     </div>
-    
+
+    <!-- 订阅列表表格 -->
     <div class="table-container">
-      <div class="overflow-x-auto">
+      <div class="overflow-x-auto overflow-scroll-inner">
         <table class="w-full divide-y divide-gray-200 responsive-table">
           <thead class="bg-gray-50">
             <tr>
-              <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style="width: 25%;">
+              <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style="width: 20%;">
                 名称
               </th>
               <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style="width: 15%;">
                 类型
               </th>
-              <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style="width: 20%;">
+              <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style="width: 15%;">
                 到期时间 <i class="fas fa-sort-up ml-1 text-indigo-500" title="按到期时间升序排列"></i>
               </th>
-              <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style="width: 15%;">
+              <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style="width: 10%;">
                 提醒设置
               </th>
-              <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style="width: 10%;">
+              <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style="width: 8%;">
                 状态
               </th>
-              <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style="width: 15%;">
+              <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style="width: 32%;">
                 操作
               </th>
             </tr>
@@ -834,6 +911,7 @@ const adminPage = `<!DOCTYPE html>
             <span class="text-gray-700">显示农历日期</span>
           </label>
         </div>
+
     <!-- 新增修改，在表单添加"周期按农历"复选框，建议放在"显示农历日期"下方 -->
     <div class="mb-4">
       <label class="lunar-toggle">
@@ -1431,7 +1509,6 @@ function addLunarPeriod(lunar, periodValue, periodUnit) {
 			'<td data-label="操作" class="px-4 py-3">' +
 			  '<div class="action-buttons-wrapper">' +
 				'<button class="edit btn-primary text-white px-2 py-1 rounded text-xs whitespace-nowrap" data-id="' + subscription.id + '"><i class="fas fa-edit mr-1"></i>编辑</button>' +
-				'<button class="edit btn-primary text-white px-2 py-1 rounded text-xs whitespace-nowrap" data-id="' + subscription.id + '"><i class="fas fa-edit mr-1"></i>编辑</button>' +
         '<button class="test-notify btn-primary bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded text-xs whitespace-nowrap" data-id="' + subscription.id + '"><i class="fas fa-paper-plane mr-1"></i>测试</button>' +
         '<button class="delete btn-primary bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-xs whitespace-nowrap" data-id="' + subscription.id + '"><i class="fas fa-trash-alt mr-1"></i>删除</button>' +
         (subscription.isActive ?
@@ -1551,7 +1628,7 @@ function addLunarPeriod(lunar, periodValue, periodUnit) {
       } catch (error) {
         console.error('加载订阅失败:', error);
         const tbody = document.getElementById('subscriptionsBody');
-        tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-red-500"><i class="fas fa-exclamation-circle mr-2"></i>加载失败，请刷新页面重试</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-red-500"><i class="fas fa-exclamation-circle mr-2"></i>加载失败，请刷新页面重试</td></tr>';
         showToast('加载订阅列表失败', 'error');
       }
     }
@@ -1867,7 +1944,8 @@ console.log('expiry.toString():', expiry.toString());
     window.addEventListener('load', loadSubscriptions);
   </script>
 </body>
-</html>`;
+</html>
+`;
 
 const configPage = `<!DOCTYPE html>
 <html>
@@ -1878,178 +1956,183 @@ const configPage = `<!DOCTYPE html>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <style>
-    /* 新拟态全局变量 */
+    /* 玻璃拟态全局变量 */
     :root {
-      --neumorphic-bg: #f0f0f0;
-      --neumorphic-light: #ffffff;
-      --neumorphic-dark: #d0d0d0;
-      --neumorphic-darker: #c0c0c0;
-      --neumorphic-shadow-light: rgba(255, 255, 255, 0.8);
-      --neumorphic-shadow-dark: rgba(0, 0, 0, 0.1);
-      --neumorphic-inset-light: rgba(255, 255, 255, 0.5);
-      --neumorphic-inset-dark: rgba(0, 0, 0, 0.05);
-      --neumorphic-focus: rgba(102, 126, 234, 0.25);
+      --glass-bg: rgba(255, 255, 255, 0.25);
+      --glass-border: rgba(255, 255, 255, 0.18);
+      --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      --glass-backdrop: blur(4px);
+      --glass-text: #333;
     }
     
-    /* 新拟态按钮样式 */
+    /* 页面背景 */
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* 导航栏玻璃拟态样式 */
+    nav {
+      background: var(--glass-bg);
+      border-radius: 17px;
+      border: 3px solid var(--glass-border);
+      backdrop-filter: var(--glass-backdrop);
+      -webkit-backdrop-filter: var(--glass-backdrop);
+      box-shadow: var(--glass-shadow);
+      margin: 3px 20px;
+      padding: 0 20px;
+      position: relative;
+    }
+    
+    nav a {
+      color: var(--glass-text);
+    }
+    
+    nav a:hover {
+      color: #230379;
+    }
+    
+    nav a#configLink {
+      color: #4c5da7;
+      border-color: #e0e1e6;
+    }
+    
+    /* 玻璃拟态按钮样式 */
     .btn-primary, .btn-secondary {
       border-radius: 12px;
-      border: none;
-      box-shadow: 
-        5px 5px 10px var(--neumorphic-dark),
-        -5px -5px 10px var(--neumorphic-light);
+      border: 1px solid var(--glass-border);
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-backdrop);
+      -webkit-backdrop-filter: var(--glass-backdrop);
+      box-shadow: var(--glass-shadow);
       transition: all 0.3s ease;
       font-weight: 600;
       padding: 10px 20px;
       cursor: pointer;
+      color: var(--glass-text);
     }
     
     .btn-primary {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.4) 0%, rgba(118, 75, 162, 0.4) 100%);
     }
     
     .btn-secondary {
-      background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
-      color: white;
+      background: linear-gradient(135deg, rgba(107, 114, 128, 0.4) 0%, rgba(75, 85, 99, 0.4) 100%);
     }
     
     .btn-primary:hover, .btn-secondary:hover {
-      box-shadow: 
-        7px 7px 14px var(--neumorphic-dark),
-        -7px -7px 14px var(--neumorphic-light);
       transform: translateY(-2px);
+      box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.5);
     }
     
     .btn-primary:active, .btn-secondary:active {
-      box-shadow: 
-        inset 5px 5px 10px var(--neumorphic-dark),
-        inset -5px -5px 10px var(--neumorphic-light);
       transform: translateY(0);
+      box-shadow: 0 4px 20px 0 rgba(31, 38, 135, 0.3);
     }
     
     /* Toast 样式 */
     .toast {
-      position: fixed; top: 20px; right: 20px; padding: 12px 20px; border-radius: 8px;
-      color: white; font-weight: 500; z-index: 1000; transform: translateX(400px);
-      transition: all 0.3s ease-in-out; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      position: fixed; 
+      top: 20px; 
+      right: 20px; 
+      padding: 12px 20px; 
+      border-radius: 8px;
+      color: white; 
+      font-weight: 500; 
+      z-index: 1000; 
+      transform: translateX(400px);
+      transition: all 0.3s ease-in-out; 
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-backdrop);
+      -webkit-backdrop-filter: var(--glass-backdrop);
+      border: 1px solid var(--glass-border);
     }
     .toast.show { transform: translateX(0); }
-    .toast.success { background-color: #10b981; }
-    .toast.error { background-color: #ef4444; }
-    .toast.info { background-color: #3b82f6; }
-    .toast.warning { background-color: #f59e0b; }
+    .toast.success { background-color: rgba(16, 185, 129, 0.7); }
+    .toast.error { background-color: rgba(239, 68, 68, 0.7); }
+    .toast.info { background-color: rgba(59, 130, 246, 0.7); }
+    .toast.warning { background-color: rgba(245, 158, 11, 0.7); }
     
-    /* 新拟态配置区块 */
+    /* 玻璃拟态配置区块 */
     .config-section {
-      background: var(--neumorphic-bg);
+      background: var(--glass-bg);
       border-radius: 20px;
       padding: 30px;
-      box-shadow: 
-        10px 10px 20px var(--neumorphic-dark),
-        -10px -10px 20px var(--neumorphic-light);
+      box-shadow: var(--glass-shadow);
+      border: 3px solid var(--glass-border);
+      backdrop-filter: var(--glass-backdrop);
+      -webkit-backdrop-filter: var(--glass-backdrop);
       position: relative;
       margin-bottom: 24px;
+      margin-top: 64px;
+      color: var(--glass-text);
     }
     
-    .config-section::before {
-      content: '';
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: linear-gradient(135deg, var(--neumorphic-light), var(--neumorphic-dark));
-      border-radius: 22px;
-      z-index: -1;
-    }
-    
-    .config-section.active {
-      box-shadow: 
-        inset 5px 5px 10px var(--neumorphic-dark),
-        inset -5px -5px 10px var(--neumorphic-light);
-    }
-    
-    .config-section.inactive {
-      opacity: 0.7;
-    }
-    
-    /* 新拟态表单元素 */
+    /* 玻璃拟态表单元素 */
     input, select, textarea {
-      background: var(--neumorphic-bg);
-      border: none;
+      background: var(--glass-bg);
+      border: 4px solid var(--glass-border);
       border-radius: 12px;
       padding: 10px 15px;
-      box-shadow: 
-        inset 5px 5px 10px var(--neumorphic-dark),
-        inset -5px -5px 10px var(--neumorphic-light);
+      backdrop-filter: var(--glass-backdrop);
+      -webkit-backdrop-filter: var(--glass-backdrop);
+      box-shadow: var(--glass-shadow);
       transition: all 0.3s ease;
       width: 100%;
       box-sizing: border-box;
+      color: var(--glass-text);
     }
     
     input:focus, select:focus, textarea:focus {
       outline: none;
-      box-shadow: 
-        inset 7px 7px 14px var(--neumorphic-darker),
-        inset -7px -7px 14px var(--neumorphic-light),
-        0 0 0 3px var(--neumorphic-focus);
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.25), var(--glass-shadow);
     }
     
-    /* 新拟态标题 */
+    /* 玻璃拟态标题 */
     h2 {
-      color: #333;
+      color: var(--glass-text);
       font-size: 28px;
       font-weight: 700;
-      text-shadow: 
-        1px 1px 2px var(--neumorphic-shadow-light),
-        -1px -1px 2px var(--neumorphic-shadow-dark);
     }
     
     h3 {
-      color: #333;
+      color: var(--glass-text);
       font-size: 24px;
       font-weight: 700;
-      text-shadow: 
-        1px 1px 2px var(--neumorphic-shadow-light),
-        -1px -1px 2px var(--neumorphic-shadow-dark);
     }
     
     h4 {
-      color: #333;
+      color: var(--glass-text);
       font-size: 20px;
       font-weight: 700;
-      text-shadow: 
-        1px 1px 2px var(--neumorphic-shadow-light),
-        -1px -1px 2px var(--neumorphic-shadow-dark);
     }
     
-    /* 新拟态复选框样式 */
+    /* 玻璃拟态复选框样式 */
     input[type="checkbox"] {
       appearance: none;
       width: 20px;
       height: 20px;
       border-radius: 6px;
-      background: var(--neumorphic-bg);
-      box-shadow: 
-        3px 3px 6px var(--neumorphic-dark),
-        -3px -3px 6px var(--neumorphic-light);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: var(--glass-backdrop);
+      -webkit-backdrop-filter: var(--glass-backdrop);
+      box-shadow: var(--glass-shadow);
       position: relative;
       cursor: pointer;
       transition: all 0.3s ease;
     }
     
     input[type="checkbox"]:focus {
-      box-shadow: 
-        3px 3px 6px var(--neumorphic-darker),
-        -3px -3px 6px var(--neumorphic-light),
-        0 0 0 3px var(--neumorphic-focus);
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.25), var(--glass-shadow);
     }
     
     input[type="checkbox"]:checked {
-      box-shadow: 
-        inset 2px 2px 4px var(--neumorphic-dark),
-        inset -2px -2px 4px var(--neumorphic-light);
+      background: rgba(102, 126, 234, 0.4);
     }
     
     input[type="checkbox"]:checked::after {
@@ -2058,35 +2141,46 @@ const configPage = `<!DOCTYPE html>
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      color: #333;
+      color: var(--glass-text);
       font-size: 14px;
       font-weight: bold;
     }
     
-    /* 保持原有功能性样式 */
-    .readonly-input { background-color: #f8fafc; border-color: #e2e8f0; cursor: not-allowed; }
-    .error-message { font-size: 0.875rem; margin-top: 0.25rem; display: none; }
-    .error-message.show { display: block; }
+    /* 保持原有功能性样式
+    .readonly-input { 
+      background-color: rgba(248, 250, 252, 0.7); 
+      border-color: rgba(226, 232, 240, 0.7); 
+      cursor: not-allowed; 
+    }
+    .error-message { 
+      font-size: 0.875rem; 
+      margin-top: 0.25rem; 
+      display: none; 
+    }
+    .error-message.show { 
+      display: block; 
+    } */
   </style>
 </head>
 <body class="bg-gray-100 min-h-screen">
   <div id="toast-container"></div>
 
-  <nav class="bg-white shadow-md">
+  <!-- 导航栏 -->
+  <nav class="fixed top-0 left-0 right-0 z-50" >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16">
         <div class="flex items-center">
           <i class="fas fa-calendar-check text-indigo-600 text-2xl mr-2"></i>
-          <span class="font-bold text-xl text-gray-800">订阅管理系统</span>
+          <span class="font-bold text-xl">订阅管理系统</span>
         </div>
         <div class="flex items-center space-x-4">
-          <a href="/admin" class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+          <a id="listLink" href="/admin" class="px-3 py-2 rounded-md text-sm font-medium">
             <i class="fas fa-list mr-1"></i>订阅列表
           </a>
-          <a href="/admin/config" class="text-indigo-600 border-b-2 border-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
+          <a id="configLink" href="/admin/config" class="px-3 py-2 rounded-md text-sm font-medium border-b-2">
             <i class="fas fa-cog mr-1"></i>系统配置
           </a>
-          <a href="/api/logout" class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+          <a id="logoutLink" href="/api/logout" class="px-3 py-2 rounded-md text-sm font-medium"> 
             <i class="fas fa-sign-out-alt mr-1"></i>退出登录
           </a>
         </div>
@@ -2094,7 +2188,8 @@ const configPage = `<!DOCTYPE html>
     </div>
   </nav>
   
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <!-- 内容区域 -->
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8" >
     <div class="config-section">
       <h2 class="mb-6">系统配置</h2>
       
