@@ -1,0 +1,18 @@
+{
+  "name": "glassbento-login",
+  "version": "1.0.0",
+  "description": "GlassBento login page with Sass and modular JavaScript",
+  "main": "src/index.html",
+  "scripts": {
+    "build-css": "sass assets/css/style-login.scss assets/css/style-login.css --watch",
+    "build": "sass assets/css/style-login.scss assets/css/style-login.css --style=compressed",
+    "dev": "sass assets/css/style-login.scss assets/css/style-login.css --watch --source-map",
+    "serve": "npx serve src"
+  },
+  "keywords": ["login", "sass", "cloudflare-pages", "glassmorphism"],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "sass": "^1.69.0"
+  }
+}
