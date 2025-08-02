@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>登录 • GlassBento</title>
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- Compiled CSS from Sass -->
+    <link rel="stylesheet" href="../assets/css/style-login.css" />
+  </head>
+
+  <body>
+    <div class="login-card">
+      <div class="login-title">
+        <i class="fas fa-calendar-check text-3xl mb-2 opacity-90"></i>
+        <h1>GlassBento</h1>
+        <p>Sign in to manage subscriptions</p>
+      </div>
+
+      <form id="loginForm">
+        <div class="input-group">
+          <input
+            type="text"
+            id="username"
+            name="username"
+            required
+            class="input-field"
+            placeholder="Username"
+            autocomplete="username"
+          />
+        </div>
+
+        <div class="input-group">
+          <input
+            type="password"
+            id="password"
+            name="password"
+            required
+            class="input-field"
+            placeholder="Password"
+            autocomplete="current-password"
+          />
+        </div>
+
+        <button type="submit" class="btn">
+          <i class="fas fa-sign-in-alt mr-2"></i>Sign in
+        </button>
+
+        <div id="errorMsg" class="error-message hidden"></div>
+      </form>
+    </div>
+
+    <!-- External JavaScript -->
+    <script src="../assets/js/login.js"></script>
+  </body>
+</html>

@@ -1,4 +1,5 @@
 # 忽略所有 HTML 文件
-*.html
+src/*.html
+src-old/*
 # 忽略备份文件
 *copy.js
