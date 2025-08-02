@@ -1,0 +1,271 @@
+:root {
+  --glass: rgba(255, 255, 255, 0.18);
+  --glass-bd: rgba(255, 255, 255, 0.3);
+  --glass-sh: 0 8px 32px rgba(31, 38, 135, 0.35);
+  --blur: blur(12px);
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-backdrop: blur(8px);
+  --glass-border: rgba(255, 255, 255, 0.2);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  height: 100vh;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: grid;
+  place-items: center;
+  color: #fff;
+  overflow: hidden;
+}
+
+.bento {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.2rem;
+  width: 90vw;
+  max-width: 1200px;
+  height: 85vh;
+}
+
+.card {
+  border: 1px solid var(--glass-bd);
+  border-radius: 20px;
+  box-shadow: var(--glass-sh);
+  background: var(--glass);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.sub-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* 弹窗样式 */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-glass {
+  width: 90vw;
+  max-width: 40%;
+  border: 1px solid var(--glass-bd);
+  border-radius: 20px;
+  box-shadow: var(--glass-sh);
+  background: var(--glass);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  padding: 2rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  color: #fff;
+}
+
+/* 页面布局 */
+.large {
+  grid-column: span 4;
+  grid-row: span 2;
+}
+
+.h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+}
+
+.h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.8rem;
+  font-size: 0.75rem;
+  background: var(--glass);
+}
+
+.tag.active {
+  background: rgba(39, 174, 96, 0.7);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 0;
+  font-size: 1rem;
+}
+
+.btn {
+  padding: 0.8rem 1.4rem;
+  border: none;
+  border-radius: 12px;
+  background: var(--glass);
+  border: 1px solid var(--glass-bd);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn:hover {
+  background: rgba(67, 66, 66, 0.25);
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.scroll {
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Toast 样式 */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 500;
+  z-index: 1000;
+  transform: translateX(400px);
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border: 1px solid var(--glass-border);
+}
+
+.toast.show {
+  transform: translateX(0);
+}
+
+.toast.success {
+  background-color: rgba(16, 185, 129, 0.7);
+}
+
+.toast.error {
+  background-color: rgba(239, 68, 68, 0.7);
+}
+
+.toast.info {
+  background-color: rgba(59, 130, 246, 0.7);
+}
+
+.toast.warning {
+  background-color: rgba(245, 158, 11, 0.7);
+}
+
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+/* 弹窗内部样式 */
+.modal-buttons {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.6rem;
+}
+
+label {
+  font-weight: 500;
+  margin-bottom: -0.5rem;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+  padding: 0.5rem;
+  border: 1px solid var(--glass-bd);
+  border-radius: 8px;
+  background: var(--glass);
+  color: #fff;
+  font-family: inherit;
+  width: 100%;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .bento {
+    grid-template-columns: 1fr;
+    width: 95vw;
+    height: auto;
+    padding: 1rem;
+  }
+
+  .large {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  .modal-glass {
+    max-width: 95%;
+    margin: 1rem;
+  }
+}

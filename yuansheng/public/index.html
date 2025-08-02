@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>登录 • GlassBento</title>
+    <title>GlassBento - 订阅管理系统</title>
     <!-- Google Fonts -->
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
@@ -14,52 +14,410 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
       rel="stylesheet"
     />
-    <!-- Compiled CSS from Sass -->
-    <link rel="stylesheet" href="assets/css/style-login.css" />
+    <!-- 统一样式 -->
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <style>
+      /* 登录页面样式扩展 */
+      .login-container {
+        display: grid;
+        place-items: center;
+        height: 100vh;
+      }
+
+      .login-card {
+        width: 400px;
+        padding: 3rem 2.5rem;
+        border: 1px solid var(--glass-bd);
+        border-radius: 20px;
+        box-shadow: var(--glass-sh);
+        background: var(--glass);
+        backdrop-filter: var(--blur);
+        -webkit-backdrop-filter: var(--blur);
+        text-align: center;
+      }
+
+      .login-title {
+        margin-bottom: 2rem;
+      }
+
+      .login-title h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      .login-title p {
+        opacity: 0.8;
+        font-size: 1.1rem;
+      }
+
+      .input-group {
+        margin-bottom: 1.5rem;
+        text-align: left;
+      }
+
+      .input-field {
+        width: 100%;
+        padding: 1rem;
+        border: 1px solid var(--glass-bd);
+        border-radius: 12px;
+        background: var(--glass);
+        color: #fff;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+      }
+
+      .input-field::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .input-field:focus {
+        outline: none;
+        border-color: rgba(255, 255, 255, 0.5);
+      }
+
+      .error-message {
+        color: #ff6b6b;
+        margin-top: 1rem;
+        font-size: 0.9rem;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      /* 页面切换动画 */
+      .page {
+        display: none;
+        animation: fadeIn 0.3s ease-in-out;
+      }
+
+      .page.active {
+        display: block;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      /* 导航栏 */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: 1rem 2rem;
+        background: var(--glass);
+        backdrop-filter: var(--blur);
+        border-bottom: 1px solid var(--glass-bd);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 100;
+      }
+
+      .nav-brand {
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .nav-link {
+        padding: 0.5rem 1rem;
+        border: none;
+        background: transparent;
+        color: #fff;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: background 0.3s;
+      }
+
+      .nav-link:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      /* 内容区域调整 */
+      .main-content {
+        padding-top: 80px;
+        height: 100vh;
+        overflow-y: auto;
+      }
+
+      .bento {
+        margin-top: 2rem;
+      }
+    </style>
   </head>
 
   <body>
-    <div class="login-card">
-      <div class="login-title">
-        <i class="fas fa-calendar-check text-3xl mb-2 opacity-90"></i>
-        <h1>GlassBento</h1>
-        <p>Sign in to manage subscriptions</p>
+    <!-- 登录页面 -->
+    <div id="loginPage" class="page login-container">
+      <div class="login-card">
+        <div class="login-title">
+          <i class="fas fa-calendar-check text-4xl mb-3 opacity-90"></i>
+          <h1>GlassBento</h1>
+          <p>登录管理您的订阅</p>
+        </div>
+
+        <form id="loginForm">
+          <div class="input-group">
+            <input
+              type="text"
+              id="username"
+              name="username"
+              required
+              class="input-field"
+              placeholder="用户名"
+              autocomplete="username"
+            />
+          </div>
+
+          <div class="input-group">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+              class="input-field"
+              placeholder="密码"
+              autocomplete="current-password"
+            />
+          </div>
+
+          <button type="submit" class="btn" style="width: 100%; margin-top: 1rem;">
+            <i class="fas fa-sign-in-alt mr-2"></i>登录
+          </button>
+
+          <div id="errorMsg" class="error-message hidden"></div>
+        </form>
       </div>
-
-      <form id="loginForm">
-        <div class="input-group">
-          <input
-            type="text"
-            id="username"
-            name="username"
-            required
-            class="input-field"
-            placeholder="Username"
-            autocomplete="username"
-          />
-        </div>
-
-        <div class="input-group">
-          <input
-            type="password"
-            id="password"
-            name="password"
-            required
-            class="input-field"
-            placeholder="Password"
-            autocomplete="current-password"
-          />
-        </div>
-
-        <button type="submit" class="btn">
-          <i class="fas fa-sign-in-alt mr-2"></i>Sign in
-        </button>
-
-        <div id="errorMsg" class="error-message hidden"></div>
-      </form>
     </div>
 
-    <!-- External JavaScript -->
-    <script src="assets/js/login.js"></script>
+    <!-- 主应用页面 -->
+    <div id="appPage" class="page">
+      <!-- 导航栏 -->
+      <nav class="navbar">
+        <div class="nav-brand">
+          <i class="fas fa-calendar-check"></i> GlassBento
+        </div>
+        <div class="nav-links">
+          <button class="nav-link" onclick="app.logout()">
+            <i class="fas fa-sign-out-alt"></i> 退出登录
+          </button>
+        </div>
+      </nav>
+
+      <!-- 主内容 -->
+      <div class="main-content">
+        <div class="bento">
+          <!-- 欢迎卡片 -->
+          <div class="card large">
+            <div>
+              <h1 class="h1">欢迎回来！</h1>
+              <p style="margin: 1rem 0; opacity: 0.8;">
+                管理您的订阅服务，掌握每一笔支出
+              </p>
+            </div>
+            <div>
+              <p style="margin-bottom: 0.5rem; opacity: 0.9;">快速操作</p>
+              <button id="addQuickBtn" class="btn">
+                <i class="fas fa-plus mr-2"></i>添加订阅
+              </button>
+            </div>
+          </div>
+
+          <!-- 统计卡片 -->
+          <div class="card">
+            <h2 class="h2">总订阅数</h2>
+            <div class="h1" id="totalSubs">0</div>
+          </div>
+
+          <div class="card">
+            <h2 class="h2">总支出</h2>
+            <div class="h1" id="totalCost">¥0.00</div>
+          </div>
+
+          <div class="card">
+            <h2 class="h2">月支出</h2>
+            <div class="h1" id="monthlyCost">¥0.00</div>
+          </div>
+
+          <div class="card">
+            <h2 class="h2">年支出</h2>
+            <div class="h1" id="yearlyCost">¥0.00</div>
+          </div>
+
+          <!-- 订阅列表 -->
+          <div class="card large">
+            <div class="list-header">
+              <h2 class="h2">我的订阅</h2>
+              <button id="addSubBtn" class="btn">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+            <div id="subscriptionsList" class="scroll">
+              <!-- 订阅内容将通过JavaScript动态加载 -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 添加订阅弹窗 -->
+    <div class="modal-overlay" id="addSubscriptionModal">
+      <div class="modal-glass">
+        <h2 class="h2">添加新订阅</h2>
+        <form id="subscriptionForm">
+          <label>服务名称</label>
+          <input type="text" name="name" required placeholder="例如：Netflix" />
+
+          <label>价格</label>
+          <input type="number" name="price" required step="0.01" placeholder="28" />
+
+          <label>周期</label>
+          <select name="cycle" required>
+            <option value="month">月付</option>
+            <option value="year">年付</option>
+            <option value="week">周付</option>
+          </select>
+
+          <label>下次续费</label>
+          <input type="date" name="nextBilling" required />
+
+          <label>分类</label>
+          <select name="category" required>
+            <option value="娱乐">娱乐</option>
+            <option value="音乐">音乐</option>
+            <option value="工具">工具</option>
+            <option value="学习">学习</option>
+            <option value="生活">生活</option>
+            <option value="其他">其他</option>
+          </select>
+
+          <label>备注</label>
+          <textarea name="description" placeholder="可选，添加备注信息"></textarea>
+
+          <div class="modal-buttons">
+            <button type="submit" class="btn">
+              <i class="fas fa-check"></i> 保存
+            </button>
+            <button type="button" class="btn" id="cancelBtn" onclick="closeModal()">
+              <i class="fas fa-times"></i> 取消
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Toast 容器 -->
+    <div id="toastContainer"></div>
+
+    <!-- 统合脚本 -->
+    <script src="assets/js/app.js"></script>
+    <script>
+      // 页面路由管理
+      class AppRouter {
+        constructor() {
+          this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+          this.init();
+        }
+
+        init() {
+          this.showPage();
+          this.bindEvents();
+        }
+
+        showPage() {
+          const loginPage = document.getElementById('loginPage');
+          const appPage = document.getElementById('appPage');
+
+          if (this.isLoggedIn) {
+            loginPage.classList.remove('active');
+            appPage.classList.add('active');
+            // 初始化订阅管理器
+            if (window.subscriptionManager) {
+              window.subscriptionManager.init();
+            }
+          } else {
+            loginPage.classList.add('active');
+            appPage.classList.remove('active');
+          }
+        }
+
+        bindEvents() {
+          // 登录表单
+          document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.handleLogin();
+          });
+        }
+
+        handleLogin() {
+          const username = document.getElementById('username').value;
+          const password = document.getElementById('password').value;
+          const errorMsg = document.getElementById('errorMsg');
+
+          // 简单的演示登录逻辑
+          if (username === 'admin' && password === 'password') {
+            localStorage.setItem('isLoggedIn', 'true');
+            this.isLoggedIn = true;
+            this.showPage();
+            this.showToast('登录成功！', 'success');
+          } else {
+            errorMsg.textContent = '用户名或密码错误';
+            errorMsg.classList.remove('hidden');
+          }
+        }
+
+        logout() {
+          localStorage.removeItem('isLoggedIn');
+          this.isLoggedIn = false;
+          this.showPage();
+          document.getElementById('loginForm').reset();
+          document.getElementById('errorMsg').classList.add('hidden');
+          this.showToast('已退出登录', 'info');
+        }
+
+        showToast(message, type = 'info') {
+          // 复用订阅管理器的toast
+          if (window.subscriptionManager) {
+            window.subscriptionManager.showToast(message, type);
+          }
+        }
+      }
+
+      // 扩展订阅管理器
+      class EnhancedSubscriptionManager extends SubscriptionManager {
+        constructor() {
+          super();
+          window.subscriptionManager = this;
+        }
+
+        logout() {
+          window.appRouter.logout();
+        }
+      }
+
+      // 初始化应用
+      const appRouter = new AppRouter();
+      window.appRouter = appRouter;
+      new EnhancedSubscriptionManager();
+
+      // 全局函数
+      function closeModal() {
+        document.querySelector('.modal-overlay').style.display = 'none';
+        document.getElementById('subscriptionForm').reset();
+      }
+
+      // 页面加载完成
+      document.addEventListener('DOMContentLoaded', () => {
+        console.log('单文件应用已启动');
+      });
+    </script>
   </body>
 </html>
