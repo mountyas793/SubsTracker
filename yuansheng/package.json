@@ -5,7 +5,7 @@
   "main": "src/index.html",
   "scripts": {
     "dev": "npx serve src -p 3000",
-    "build": "npm run build:css",
+    "build": "sass assets/css/style-login.scss assets/css/style-login.css --style=compressed && cp -r assets public/ && cp index.html public/",
     "build:css": "sass assets/css/style-login.scss assets/css/style-login.css --style compressed",
     "watch:css": "sass --watch assets/css/style-login.scss:assets/css/style-login.css",
     "serve": "npx serve src -p 8080",
