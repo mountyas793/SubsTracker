@@ -16,142 +16,7 @@
     />
     <!-- 统一样式 -->
     <link rel="stylesheet" href="assets/css/styles.css" />
-    <style>
-      /* 登录页面样式扩展 */
-      .login-container {
-        display: grid;
-        place-items: center;
-        height: 100vh;
-      }
-
-      .login-card {
-        width: 400px;
-        padding: 3rem 2.5rem;
-        border: 1px solid var(--glass-bd);
-        border-radius: 20px;
-        box-shadow: var(--glass-sh);
-        background: var(--glass);
-        backdrop-filter: var(--blur);
-        -webkit-backdrop-filter: var(--blur);
-        text-align: center;
-      }
-
-      .login-title {
-        margin-bottom: 2rem;
-      }
-
-      .login-title h1 {
-        font-size: 2.5rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-      }
-
-      .login-title p {
-        opacity: 0.8;
-        font-size: 1.1rem;
-      }
-
-      .input-group {
-        margin-bottom: 1.5rem;
-        text-align: left;
-      }
-
-      .input-field {
-        width: 100%;
-        padding: 1rem;
-        border: 1px solid var(--glass-bd);
-        border-radius: 12px;
-        background: var(--glass);
-        color: #fff;
-        font-size: 1rem;
-        transition: border-color 0.3s;
-      }
-
-      .input-field::placeholder {
-        color: rgba(255, 255, 255, 0.7);
-      }
-
-      .input-field:focus {
-        outline: none;
-        border-color: rgba(255, 255, 255, 0.5);
-      }
-
-      .error-message {
-        color: #ff6b6b;
-        margin-top: 1rem;
-        font-size: 0.9rem;
-      }
-
-      .hidden {
-        display: none;
-      }
-
-      /* 页面切换动画 */
-      .page {
-        display: none;
-        animation: fadeIn 0.3s ease-in-out;
-      }
-
-      .page.active {
-        display: block;
-      }
-
-      @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-
-      /* 导航栏 */
-      .navbar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        padding: 1rem 2rem;
-        background: var(--glass);
-        backdrop-filter: var(--blur);
-        border-bottom: 1px solid var(--glass-bd);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        z-index: 100;
-      }
-
-      .nav-brand {
-        font-size: 1.5rem;
-        font-weight: 700;
-      }
-
-      .nav-links {
-        display: flex;
-        gap: 1rem;
-      }
-
-      .nav-link {
-        padding: 0.5rem 1rem;
-        border: none;
-        background: transparent;
-        color: #fff;
-        cursor: pointer;
-        border-radius: 8px;
-        transition: background 0.3s;
-      }
-
-      .nav-link:hover {
-        background: rgba(255, 255, 255, 0.1);
-      }
-
-      /* 内容区域调整 */
-      .main-content {
-        padding-top: 80px;
-        height: 100vh;
-        overflow-y: auto;
-      }
-
-      .bento {
-        margin-top: 2rem;
-      }
-    </style>
+    <style></style>
   </head>
 
   <body>
@@ -189,7 +54,11 @@
             />
           </div>
 
-          <button type="submit" class="btn" style="width: 100%; margin-top: 1rem;">
+          <button
+            type="submit"
+            class="btn"
+            style="width: 100%; margin-top: 1rem"
+          >
             <i class="fas fa-sign-in-alt mr-2"></i>登录
           </button>
 
@@ -199,70 +68,76 @@
     </div>
 
     <!-- 主应用页面 -->
-    <div id="appPage" class="page">
-      <!-- 导航栏 -->
-      <nav class="navbar">
-        <div class="nav-brand">
-          <i class="fas fa-calendar-check"></i> GlassBento
-        </div>
-        <div class="nav-links">
-          <button class="nav-link" onclick="app.logout()">
-            <i class="fas fa-sign-out-alt"></i> 退出登录
-          </button>
-        </div>
-      </nav>
-
       <!-- 主内容 -->
       <div class="main-content">
         <div class="bento">
-          <!-- 欢迎卡片 -->
-          <div class="card large">
+          <!-- 欢迎 -->
+          <div class="login card large">
             <div>
-              <h1 class="h1">欢迎回来！</h1>
-              <p style="margin: 1rem 0; opacity: 0.8;">
-                管理您的订阅服务，掌握每一笔支出
-              </p>
+              <h1>Hi, Alex</h1>
+              <p>Welcome back to your subscriptions</p>
+              <p>Manage your subscriptions, keep track of your expenses, and stay on top of your bill.</p>
+              <p>Get started by adding your subscriptions and tracking your usage.</p>
             </div>
-            <div>
-              <p style="margin-bottom: 0.5rem; opacity: 0.9;">快速操作</p>
-              <button id="addQuickBtn" class="btn">
-                <i class="fas fa-plus mr-2"></i>添加订阅
-              </button>
+            <button id="logoutBtn" class="logout btn" onclick="logout()"> 
+              Logout
+            </button>
+          </div>
+    
+          <!-- 统计 -->
+          <div class="card">
+            <h2>4</h2>
+            <p>Active</p>
+          </div>
+          <div class="card">
+            <h2>$99</h2>
+            <p>This Month</p>
+          </div>
+    
+          <!-- 下一个扣费 -->
+          <div class="upcoming card">
+            <h3>Upcoming</h3>
+            <div class="row">
+              <span>Music</span><span class="tag">May 25 · $12</span>
+            </div>
+            <div class="row">
+              <span>Cloud</span><span class="tag">Jun 5 · $8</span>
             </div>
           </div>
-
-          <!-- 统计卡片 -->
-          <div class="card">
-            <h2 class="h2">总订阅数</h2>
-            <div class="h1" id="totalSubs">0</div>
-          </div>
-
-          <div class="card">
-            <h2 class="h2">总支出</h2>
-            <div class="h1" id="totalCost">¥0.00</div>
-          </div>
-
-          <div class="card">
-            <h2 class="h2">月支出</h2>
-            <div class="h1" id="monthlyCost">¥0.00</div>
-          </div>
-
-          <div class="card">
-            <h2 class="h2">年支出</h2>
-            <div class="h1" id="yearlyCost">¥0.00</div>
-          </div>
-
-          <!-- 订阅列表 -->
-          <div class="card large">
-            <div class="list-header">
-              <h2 class="h2">我的订阅</h2>
-              <button id="addSubBtn" class="btn">
-                <i class="fas fa-plus"></i>
-              </button>
+    
+          <!-- 列表 -->
+          <div class="list card large scroll" id="subscriptionsSection">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1rem;
+              "
+            >
+              <h3>All Subscriptions</h3>
             </div>
-            <div id="subscriptionsList" class="scroll">
-              <!-- 订阅内容将通过JavaScript动态加载 -->
+            <!-- 示例卡片 -->
+            <div class="sub-content">
+              <div>
+                <strong>Spotify</strong>
+              </div>
+              <div>
+                <span class="tag">Music</span>
+                <span class="tag active">Active</span>
+              </div>
             </div>
+          </div>
+          <!-- 快速操作 -->
+          <div class="card">
+            <h3>Actions</h3>
+            <button  id="addSubBtn" class="new btn mb-2" onclick="openModal()">➕ New</button>
+            <button class="setting btn" onclick="location.href='config.html'">
+              ⚙️ Settings
+            </button>
+            <button class="detail btn" onclick="location.href='admin.html'">
+              📚 Details
+            </button>
           </div>
         </div>
       </div>
@@ -277,7 +152,13 @@
           <input type="text" name="name" required placeholder="例如：Netflix" />
 
           <label>价格</label>
-          <input type="number" name="price" required step="0.01" placeholder="28" />
+          <input
+            type="number"
+            name="price"
+            required
+            step="0.01"
+            placeholder="28"
+          />
 
           <label>周期</label>
           <select name="cycle" required>
@@ -300,13 +181,21 @@
           </select>
 
           <label>备注</label>
-          <textarea name="description" placeholder="可选，添加备注信息"></textarea>
+          <textarea
+            name="description"
+            placeholder="可选，添加备注信息"
+          ></textarea>
 
           <div class="modal-buttons">
             <button type="submit" class="btn">
               <i class="fas fa-check"></i> 保存
             </button>
-            <button type="button" class="btn" id="cancelBtn" onclick="closeModal()">
+            <button
+              type="button"
+              class="btn"
+              id="cancelBtn"
+              onclick="closeModal()"
+            >
               <i class="fas fa-times"></i> 取消
             </button>
           </div>
@@ -317,13 +206,469 @@
     <!-- Toast 容器 -->
     <div id="toastContainer"></div>
 
+    <!-- 配置文件 -->
+    <div id="configPage" class="bg-gray-100 min-h-screen">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="config-section">
+          <h2 class="mb-6">系统配置</h2>
+          <form id="configForm" class="space-y-8">
+            <div class="pb-6 border-b border-gray-200">
+              <h3 class="mb-4">管理员账户</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label
+                    for="adminUsername"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >用户名</label
+                  >
+                  <input type="text" id="adminUsername" />
+                </div>
+                <div>
+                  <label
+                    for="adminPassword"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >密码</label
+                  >
+                  <input
+                    type="password"
+                    id="adminPassword"
+                    placeholder="如不修改密码，请留空"
+                  />
+                  <p class="mt-1 text-sm text-gray-500">
+                    留空表示不修改当前密码
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="pb-6 border-b border-gray-200">
+              <h3 class="mb-4">显示设置</h3>
+              <div class="mb-6">
+                <label class="inline-flex items-center">
+                  <input type="checkbox" id="showLunarGlobal" checked />
+                  <span class="ml-2 text-sm text-gray-700"
+                    >在通知中显示农历日期</span
+                  >
+                </label>
+                <p class="mt-1 text-sm text-gray-500">
+                  控制是否在通知消息中包含农历日期信息
+                </p>
+              </div>
+            </div>
+
+            <div class="pb-6 border-b border-gray-200">
+              <h3 class="mb-4">通知设置</h3>
+              <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-3"
+                  >通知方式（可多选）</label
+                >
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <label class="inline-flex items-center">
+                    <input
+                      type="checkbox"
+                      name="enabledNotifiers"
+                      value="telegram"
+                    />
+                    <span class="ml-2 text-sm text-gray-700">Telegram</span>
+                  </label>
+                  <label class="inline-flex items-center">
+                    <input
+                      type="checkbox"
+                      name="enabledNotifiers"
+                      value="notifyx"
+                      checked
+                    />
+                    <span class="ml-2 text-sm text-gray-700 font-semibold"
+                      >NotifyX</span
+                    >
+                  </label>
+                  <label class="inline-flex items-center">
+                    <input
+                      type="checkbox"
+                      name="enabledNotifiers"
+                      value="webhook"
+                    />
+                    <span class="ml-2 text-sm text-gray-700"
+                      >企业微信应用通知</span
+                    >
+                  </label>
+                  <label class="inline-flex items-center">
+                    <input
+                      type="checkbox"
+                      name="enabledNotifiers"
+                      value="wechatbot"
+                    />
+                    <span class="ml-2 text-sm text-gray-700"
+                      >企业微信机器人</span
+                    >
+                  </label>
+                  <label class="inline-flex items-center">
+                    <input
+                      type="checkbox"
+                      name="enabledNotifiers"
+                      value="email"
+                    />
+                    <span class="ml-2 text-sm text-gray-700">邮件通知</span>
+                  </label>
+                </div>
+                <div class="mt-2 flex flex-wrap gap-4">
+                  <a
+                    href="https://www.notifyx.cn/"
+                    target="_blank"
+                    class="text-indigo-600 hover:text-indigo-800 text-sm"
+                  >
+                    <i class="fas fa-external-link-alt ml-1"></i> NotifyX官网
+                  </a>
+                  <a
+                    href="https://push.wangwangit.com"
+                    target="_blank"
+                    class="text-indigo-600 hover:text-indigo-800 text-sm"
+                  >
+                    <i class="fas fa-external-link-alt ml-1"></i>
+                    企业微信应用通知官网
+                  </a>
+                  <a
+                    href="https://developer.work.weixin.qq.com/document/path/91770"
+                    target="_blank"
+                    class="text-indigo-600 hover:text-indigo-800 text-sm"
+                  >
+                    <i class="fas fa-external-link-alt ml-1"></i>
+                    企业微信机器人文档
+                  </a>
+                  <a
+                    href="https://developers.cloudflare.com/workers/tutorials/send-emails-with-resend/"
+                    target="_blank"
+                    class="text-indigo-600 hover:text-indigo-800 text-sm"
+                  >
+                    <i class="fas fa-external-link-alt ml-1"></i> 获取 Resend
+                    API Key
+                  </a>
+                </div>
+              </div>
+
+              <div id="telegramConfig" class="config-section">
+                <h4 class="mb-3">Telegram 配置</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label
+                      for="tgBotToken"
+                      class="block text-sm font-medium text-gray-700 mb-1"
+                      >Bot Token</label
+                    >
+                    <input
+                      type="text"
+                      id="tgBotToken"
+                      placeholder="从 @BotFather 获取"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      for="tgChatId"
+                      class="block text-sm font-medium text-gray-700 mb-1"
+                      >Chat ID</label
+                    >
+                    <input
+                      type="text"
+                      id="tgChatId"
+                      placeholder="可从 @userinfobot 获取"
+                    />
+                  </div>
+                </div>
+                <div class="flex justify-end">
+                  <button
+                    type="button"
+                    id="testTelegramBtn"
+                    class="btn-secondary"
+                  >
+                    <i class="fas fa-paper-plane mr-2"></i>测试 Telegram 通知
+                  </button>
+                </div>
+              </div>
+
+              <div id="notifyxConfig" class="config-section">
+                <h4 class="mb-3">NotifyX 配置</h4>
+                <div class="mb-4">
+                  <label
+                    for="notifyxApiKey"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >API Key</label
+                  >
+                  <input
+                    type="text"
+                    id="notifyxApiKey"
+                    placeholder="从 NotifyX 平台获取的 API Key"
+                  />
+                  <p class="mt-1 text-sm text-gray-500">
+                    从
+                    <a
+                      href="https://www.notifyx.cn/"
+                      target="_blank"
+                      class="text-indigo-600 hover:text-indigo-800"
+                      >NotifyX平台</a
+                    >
+                    获取的 API Key
+                  </p>
+                </div>
+                <div class="flex justify-end">
+                  <button
+                    type="button"
+                    id="testNotifyXBtn"
+                    class="btn-secondary"
+                  >
+                    <i class="fas fa-paper-plane mr-2"></i>测试 NotifyX 通知
+                  </button>
+                </div>
+              </div>
+
+              <div id="webhookConfig" class="config-section">
+                <h4 class="mb-3">企业微信应用通知 配置</h4>
+                <div class="grid grid-cols-1 gap-4 mb-4">
+                  <div>
+                    <label
+                      for="webhookUrl"
+                      class="block text-sm font-medium text-gray-700 mb-1"
+                      >企业微信应用通知 URL</label
+                    >
+                    <input
+                      type="url"
+                      id="webhookUrl"
+                      placeholder="https://push.wangwangit.com/api/send/your-key"
+                    />
+                    <p class="mt-1 text-sm text-gray-500">
+                      从
+                      <a
+                        href="https://push.wangwangit.com"
+                        target="_blank"
+                        class="text-indigo-600 hover:text-indigo-800"
+                        >企业微信应用通知平台</a
+                      >
+                      获取的推送URL
+                    </p>
+                  </div>
+                  <div>
+                    <label
+                      for="webhookMethod"
+                      class="block text-sm font-medium text-gray-700 mb-1"
+                      >请求方法</label
+                    >
+                    <select id="webhookMethod">
+                      <option value="POST">POST</option>
+                      <option value="GET">GET</option>
+                      <option value="PUT">PUT</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label
+                      for="webhookHeaders"
+                      class="block text-sm font-medium text-gray-700 mb-1"
+                      >自定义请求头 (JSON格式，可选)</label
+                    >
+                    <textarea
+                      id="webhookHeaders"
+                      rows="3"
+                      placeholder='{"Authorization": "Bearer your-token", "Content-Type": "application/json"}'
+                    ></textarea>
+                    <p class="mt-1 text-sm text-gray-500">
+                      JSON格式的自定义请求头，留空使用默认
+                    </p>
+                  </div>
+                  <div>
+                    <label
+                      for="webhookTemplate"
+                      class="block text-sm font-medium text-gray-700 mb-1"
+                      >消息模板 (JSON格式，可选)</label
+                    >
+                    <textarea
+                      id="webhookTemplate"
+                      rows="4"
+                      placeholder='{"title": "{{title}}", "content": "{{content}}", "timestamp": "{{timestamp}}"}'
+                    ></textarea>
+                    <p class="mt-1 text-sm text-gray-500">
+                      支持变量: {{title}}, {{content}},
+                      {{timestamp}}。留空使用默认格式
+                    </p>
+                  </div>
+                </div>
+                <div class="flex justify-end">
+                  <button
+                    type="button"
+                    id="testWebhookBtn"
+                    class="btn-secondary"
+                  >
+                    <i class="fas fa-paper-plane mr-2"></i>测试 企业微信应用通知
+                  </button>
+                </div>
+              </div>
+
+              <div id="wechatbotConfig" class="config-section">
+                <h4 class="mb-3">企业微信机器人 配置</h4>
+                <div class="grid grid-cols-1 gap-4 mb-4">
+                  <div>
+                    <label
+                      for="wechatbotWebhook"
+                      class="block text-sm font-medium text-gray-700 mb-1"
+                      >机器人 Webhook URL</label
+                    >
+                    <input
+                      type="url"
+                      id="wechatbotWebhook"
+                      placeholder="https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=your-key"
+                    />
+                    <p class="mt-1 text-sm text-gray-500">
+                      从企业微信群聊中添加机器人获取的 Webhook URL
+                    </p>
+                  </div>
+                  <div>
+                    <label
+                      for="wechatbotMsgType"
+                      class="block text-sm font-medium text-gray-700 mb-1"
+                      >消息类型</label
+                    >
+                    <select id="wechatbotMsgType">
+                      <option value="text">文本消息</option>
+                      <option value="markdown">Markdown消息</option>
+                    </select>
+                    <p class="mt-1 text-sm text-gray-500">
+                      选择发送的消息格式类型
+                    </p>
+                  </div>
+                  <div>
+                    <label
+                      for="wechatbotAtMobiles"
+                      class="block text-sm font-medium text-gray-700 mb-1"
+                      >@手机号 (可选)</label
+                    >
+                    <input
+                      type="text"
+                      id="wechatbotAtMobiles"
+                      placeholder="13800138000,13900139000"
+                    />
+                    <p class="mt-1 text-sm text-gray-500">
+                      需要@的手机号，多个用逗号分隔，留空则不@任何人
+                    </p>
+                  </div>
+                  <div>
+                    <label
+                      for="wechatbotAtAll"
+                      class="block text-sm font-medium text-gray-700 mb-2"
+                      >@所有人</label
+                    >
+                    <label class="inline-flex items-center">
+                      <input type="checkbox" id="wechatbotAtAll" />
+                      <span class="ml-2 text-sm text-gray-700"
+                        >发送消息时@所有人</span
+                      >
+                    </label>
+                  </div>
+                </div>
+                <div class="flex justify-end">
+                  <button
+                    type="button"
+                    id="testWechatBotBtn"
+                    class="btn-secondary"
+                  >
+                    <i class="fas fa-paper-plane mr-2"></i>测试 企业微信机器人
+                  </button>
+                </div>
+              </div>
+
+              <div id="emailConfig" class="config-section">
+                <h4 class="mb-3">邮件通知 配置</h4>
+                <div class="grid grid-cols-1 gap-4 mb-4">
+                  <div>
+                    <label
+                      for="resendApiKey"
+                      class="block text-sm font-medium text-gray-700 mb-1"
+                      >Resend API Key</label
+                    >
+                    <input
+                      type="text"
+                      id="resendApiKey"
+                      placeholder="re_xxxxxxxxxx"
+                    />
+                    <p class="mt-1 text-sm text-gray-500">
+                      从
+                      <a
+                        href="https://resend.com/api-keys"
+                        target="_blank"
+                        class="text-indigo-600 hover:text-indigo-800"
+                        >Resend控制台</a
+                      >
+                      获取的 API Key
+                    </p>
+                  </div>
+                  <div>
+                    <label
+                      for="emailFrom"
+                      class="block text-sm font-medium text-gray-700 mb-1"
+                      >发件人邮箱</label
+                    >
+                    <input
+                      type="email"
+                      id="emailFrom"
+                      placeholder="noreply@yourdomain.com"
+                    />
+                    <p class="mt-1 text-sm text-gray-500">
+                      必须是已在Resend验证的域名邮箱
+                    </p>
+                  </div>
+                  <div>
+                    <label
+                      for="emailFromName"
+                      class="block text-sm font-medium text-gray-700 mb-1"
+                      >发件人名称</label
+                    >
+                    <input
+                      type="text"
+                      id="emailFromName"
+                      placeholder="订阅提醒系统"
+                    />
+                    <p class="mt-1 text-sm text-gray-500">
+                      显示在邮件中的发件人名称
+                    </p>
+                  </div>
+                  <div>
+                    <label
+                      for="emailTo"
+                      class="block text-sm font-medium text-gray-700 mb-1"
+                      >收件人邮箱</label
+                    >
+                    <input
+                      type="email"
+                      id="emailTo"
+                      placeholder="user@example.com"
+                    />
+                    <p class="mt-1 text-sm text-gray-500">
+                      接收通知邮件的邮箱地址
+                    </p>
+                  </div>
+                </div>
+                <!-- 测试邮件按钮 -->
+                <div class="flex justify-end">
+                  <button type="button" id="testEmailBtn" class="btn-secondary">
+                    <i class="fas fa-paper-plane mr-2"></i>测试 邮件通知
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- 保存配置按钮 -->
+            <div class="flex justify-end">
+              <button type="submit" class="btn-primary">
+                <i class="fas fa-save mr-2"></i>保存配置
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <!-- 统合脚本 -->
     <script src="assets/js/app.js"></script>
     <script>
       // 页面路由管理
       class AppRouter {
         constructor() {
-          this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+          this.isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
           this.init();
         }
 
@@ -333,57 +678,59 @@
         }
 
         showPage() {
-          const loginPage = document.getElementById('loginPage');
-          const appPage = document.getElementById('appPage');
+          const loginPage = document.getElementById("loginPage");
+          const appPage = document.getElementById("appPage");
 
           if (this.isLoggedIn) {
-            loginPage.classList.remove('active');
-            appPage.classList.add('active');
+            loginPage?.classList.remove("active");
+            appPage?.classList.add("active");
             // 初始化订阅管理器
             if (window.subscriptionManager) {
               window.subscriptionManager.init();
             }
           } else {
-            loginPage.classList.add('active');
-            appPage.classList.remove('active');
+            loginPage?.classList.add("active");
+            appPage?.classList.remove("active");
           }
         }
 
         bindEvents() {
           // 登录表单
-          document.getElementById('loginForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            this.handleLogin();
-          });
+          document
+            .getElementById("loginForm")
+            .addEventListener("submit", (e) => {
+              e.preventDefault();
+              this.handleLogin();
+            });
         }
 
         handleLogin() {
-          const username = document.getElementById('username').value;
-          const password = document.getElementById('password').value;
-          const errorMsg = document.getElementById('errorMsg');
+          const username = document.getElementById("username").value;
+          const password = document.getElementById("password").value;
+          const errorMsg = document.getElementById("errorMsg");
 
           // 简单的演示登录逻辑
-          if (username === 'admin' && password === 'password') {
-            localStorage.setItem('isLoggedIn', 'true');
+          if (username === "admin" && password === "password") {
+            localStorage.setItem("isLoggedIn", "true");
             this.isLoggedIn = true;
             this.showPage();
-            this.showToast('登录成功！', 'success');
+            this.showToast("登录成功！", "success");
           } else {
-            errorMsg.textContent = '用户名或密码错误';
-            errorMsg.classList.remove('hidden');
+            errorMsg.textContent = "用户名或密码错误";
+            errorMsg.classList.remove("hidden");
           }
         }
 
         logout() {
-          localStorage.removeItem('isLoggedIn');
+          localStorage.removeItem("isLoggedIn");
           this.isLoggedIn = false;
           this.showPage();
-          document.getElementById('loginForm').reset();
-          document.getElementById('errorMsg').classList.add('hidden');
-          this.showToast('已退出登录', 'info');
+          document.getElementById("loginForm").reset();
+          document.getElementById("errorMsg").classList.add("hidden");
+          this.showToast("已退出登录", "info");
         }
 
-        showToast(message, type = 'info') {
+        showToast(message, type = "info") {
           // 复用订阅管理器的toast
           if (window.subscriptionManager) {
             window.subscriptionManager.showToast(message, type);
@@ -410,13 +757,13 @@
 
       // 全局函数
       function closeModal() {
-        document.querySelector('.modal-overlay').style.display = 'none';
-        document.getElementById('subscriptionForm').reset();
+        document.querySelector(".modal-overlay").style.display = "none";
+        document.getElementById("subscriptionForm").reset();
       }
 
       // 页面加载完成
-      document.addEventListener('DOMContentLoaded', () => {
-        console.log('单文件应用已启动');
+      document.addEventListener("DOMContentLoaded", () => {
+        console.log("单文件应用已启动");
       });
     </script>
   </body>

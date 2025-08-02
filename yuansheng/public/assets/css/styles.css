@@ -24,6 +24,103 @@ body {
   overflow: hidden;
 }
 
+/* 登录页面样式扩展 */
+.login-container {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+}
+
+.login-card {
+  width: 400px;
+  padding: 3rem 2.5rem;
+  border: 1px solid var(--glass-bd);
+  border-radius: 20px;
+  box-shadow: var(--glass-sh);
+  background: var(--glass);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  text-align: center;
+}
+
+.login-title {
+  margin-bottom: 2rem;
+}
+
+.login-title h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.login-title p {
+  opacity: 0.8;
+  font-size: 1.1rem;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.input-field {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid var(--glass-bd);
+  border-radius: 12px;
+  background: var(--glass);
+  color: #fff;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.input-field::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.error-message {
+  color: #ff6b6b;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.hidden {
+  display: none;
+}
+
+/* 页面切换动画 */
+.page {
+  display: none;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.page.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 内容区域调整 */
+.main-content {
+  padding-top: 80px;
+  height: 100vh;
+  overflow-y: auto;
+}
+
 .bento {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
